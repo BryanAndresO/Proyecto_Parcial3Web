@@ -46,7 +46,8 @@ if ($_SESSION['listaNote']->roles_id == 8) {
 if ($_SESSION['listaNote']->roles_id == 9) { 
 
   $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton">Matricula</button></a></p>';
-  
+  $Botones .= '<p><a href="Vehiculo/index.php?d=' . base64_encode("getmulta/" . $_SESSION['listaNote']->username) . '"><button class="boton">Consultar Multa</button></a></p>';
+	
   $Rol='Vehiculo';
 }
 
