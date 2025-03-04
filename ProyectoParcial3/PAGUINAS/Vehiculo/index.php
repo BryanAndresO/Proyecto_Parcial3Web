@@ -261,7 +261,11 @@ $_SESSION["Multados"] =$vehiculosConMultas;
             echo '<div class="container pt-2"  >';
             echo $v->multar($id);
             echo '</div>';
-        }
+        }elseif($op == "getmulta"){
+	    echo '<div class="container pt-2"  >';
+            echo $v->get_multar($id);
+            echo '</div>';
+	}
     } else {
         if(isset($_POST['Guardar']) && $_POST['op']=="new"){
             $v->save_vehiculo();
