@@ -1447,6 +1447,175 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 	}
 	
 //****************************************************************************	
+
+//************************************* GET_MULTAR ****************************************************
+	public function get_multar($id){
+
+		$conexion = new mysqli("localhost", "root", "", "matriculacionfinal");
+		if ($conexion->connect_errno) {
+			die("Error de conexión: " . $conexion->connect_error);
+		}
+	
+		$colorPuntos=null;
+		$html = '';
+		$num = 1; // Cambia a 0 si no quieres mostrar la tabla
+		if($num == 0){
+			$mensaje = "tratar de editar el vehiculo con id= ".$id;
+			echo $this->_message_error($mensaje);
+		} else { 
+	
+			$sql = "SELECT 
+					v.id AS ID_VEHICULO,
+					v.placa,
+					p.ID_CHOFER,
+					p.APELLIDO,
+					p.NOMBRE,
+					p.CEDULA,
+					p.PUNTOS_LICENCIA
+					FROM 
+						matriculacionfinal.vehiculo v
+					JOIN 
+						matriculacionfinal.persona p on p.ID_CHOFER=v.id_persona
+					
+					where v.placa='$id';";
+	
+			if ($stmt1 = $conexion->prepare($sql)) {
+				$stmt1->execute();
+				$result = $stmt1->get_result();
+				$row = $result->fetch_assoc();
+				
+				if($result->num_rows != 0) {
+					$Propietario_idpersona = $row['ID_CHOFER'];
+					$Propietario_apellido = $row['APELLIDO'];
+					$Propietario_nombre = $row['NOMBRE'];
+					$Propietario_cedula = $row['CEDULA'];
+					$Propietario_puntosLicencia = $row['PUNTOS_LICENCIA'];
+					$Propietario_placa = $row['placa'];
+	
+					if($Propietario_puntosLicencia >= 15){
+						$colorPuntos = "table-success";
+					}
+					if($Propietario_puntosLicencia <= 15 && $Propietario_puntosLicencia >= 10){
+						$colorPuntos = "table-warning";
+					}
+					if($Propietario_puntosLicencia <= 10){
+						$colorPuntos = "table-danger";
+					}
+	
+					$html.='
+					<table class="table col-lg-2" border="1" align="center">
+						<tr>
+						<th class="text-center bg-primary text-white" colspan="6">DATOS DEL PROPIETARIO</th>
+						</tr>
+						<tr>
+							
+							<th class="text-center"></th>
+							<th class="text-center">Cedula</th>
+							<th class="text-center">Apellido</th>
+							<th class="text-center">Nombre</th>
+							<th class="text-center">Placa</th>
+							<th class="text-center '.$colorPuntos.'">Puntos </th>
+							
+						</tr>
+						<tr>
+							
+							<td class="text-center"></td>
+						
+							<td class="text-center"> ' . $Propietario_cedula. '</td>
+							<td class="text-center">' . $Propietario_apellido . '</td>
+							<td class="text-center">' . $Propietario_nombre . '</td>
+							<td class="text-center">' . $Propietario_placa . '</td>
+							<td class="text-center '.$colorPuntos.'">' . $Propietario_puntosLicencia . '</td>
+						</tr>
+					';
+					
+					$multar=true;
+	
+				}else{
+	
+					$html.= '
+						<table class="table col-lg-2" border="1" align="center">
+						<tr>
+						<th class="text-center bg-primary text-white" colspan="6">DATOS DEL PROPIETARIO</th>
+						</tr>
+						<tr>
+						<th class="text-center bg-danger text-white" colspan="6">No tiene asignado algun propietario</th>
+						</tr>
+						';
+					$multar=false;
+					
+				}
+				$stmt1->close();
+			}
+			
+			$found = false;
+	
+			foreach ($_SESSION['Multados'] as $multaVehiculo) {
+				if ($multaVehiculo->placa == $id ) {
+	
+					
+					$html.= '
+							<tr>
+								<th class="text-center bg-dark text-white" colspan="6">DATOS DE LAS MULTAS DEL VEHICULO</th>
+							</tr>
+							<tr>
+								<th class="text-center">Placa</th>
+								<th class="text-center">ID_Vehiculo</th>
+								<th class="text-center">Fecha</th>
+								<th class="text-center">Categoria</th>
+								<th class="text-center">Descripcion</th>
+								<th class="text-center">Puntos a Restar</th>
+							</tr>';
+		
+							foreach ($multaVehiculo->datos as $data) {
+								$html .= '<tr>
+									<td class="text-center">' . $multaVehiculo->placa . '</td>
+									<td class="text-center">' . $multaVehiculo->idvehiculo . '</td>
+									<td class="text-center">' . $data['Mfecha'] . '</td>
+									<td class="text-center">' . $data['Mcategoria'] . '</td>
+									<td class="text-center">' . $data['Mdescripcion'] . '</td>
+									<td class="text-center">' . $data['Mpuntos'] . '</td>
+		
+	
+								</tr>';
+								
+							}
+						$found = true;
+						break;
+				}
+			}
+	
+			if (!$found) {
+	
+				$sqlidv = "SELECT v.id  
+						FROM vehiculo v
+						WHERE v.placa='$id';";
+				$res = $this->con->query($sqlidv);
+				$rowidv = $res->fetch_assoc();// fetch_assoc() es un método de MySQLi en PHP que se usa para obtener la siguiente filade un conjunto de resultados como un array asociativo
+				
+				$num = $res->num_rows;
+	
+				$html .= '
+				<table class="table col-lg-2" border="1" align="center">
+				<tr>
+					<th class="text-center bg-dark text-white" colspan="6">DATOS DE LAS MULTAS DEL VEHICULO</th>
+				</tr>
+				<tr>
+					<td class="text-center table-success" colspan="4">No se encontraron registros para la placa: ' . $id . '</td>
+				</tr>';
+		
+			}
+	  
+			  $html .= '
+	
+			  <tr>
+				  <th class="text-center" colspan="6"><a class="btn btn-outline-success" href="..\index.php">Regresar</a></th>
+			  </tr>
+			  </table>';
+	  
+			  return $html;
+		}
+	}
 	
 } // FIN SCRPIT
 ?>
