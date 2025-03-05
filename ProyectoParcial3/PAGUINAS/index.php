@@ -27,7 +27,7 @@ if ($_SESSION['listaNote']->roles_id == 6) {
 
   $menuOpciones .= '<li><a href="Vehiculo/index.php">CRUD_Vehiculo</a></li>';
  
-  $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton">Matricula</button></a></p>';
+  $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton btn-info"><i class="fas fa-car"></i>Matricular-Multar</button></a></p>';
   $Rol='AGENTE';
 } 
 if ($_SESSION['listaNote']->roles_id == 7) { 
@@ -37,8 +37,8 @@ if ($_SESSION['listaNote']->roles_id == 7) {
     $Rol='ADM';
 } 
 if ($_SESSION['listaNote']->roles_id == 8) { 
-    $Botones .= '<p><a href="set_session.php?tipo=Vehiculo"><button class="boton tn-block ">Agregar VEHICULO</button></a></p>';
-    $Botones .= '<p><a href="set_session.php?tipo=Agente"><button class="boton tn-block ">Agregar AGENTE</button></a></p>';
+    $Botones .= '<p><a href="set_session.php?tipo=Vehiculo"><button class="butoon tn-block ">Agregar VEHICULO</button></a></p>';
+    $Botones .= '<p><a href="set_session.php?tipo=Agente"><button class="butoon tn-block ">Agregar AGENTE</button></a></p>';
     
     $Rol='SUPERADM';
 }

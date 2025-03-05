@@ -45,10 +45,6 @@ div[class^='col-']{
 	padding: 5px;
 }
 .boton{
-	background-color: white;
-	font-family: 'Times New Roman', Times, serif;
-	margin: 5px;
-	padding: 5px;
 	border-radius: 5px;
-	border-color: (150,150,150);
+	
 }
