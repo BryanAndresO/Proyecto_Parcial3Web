@@ -45,7 +45,7 @@ function cargarVehiculosMatriculados($conexion) {
 }
 
 
-$conexion = new mysqli("localhost", "root", "", "matriculacionfinal");
+$conexion = new mysqli("localhost", "root", "andres", "matriculacionfinal");
 if ($conexion->connect_errno) {
 die("Error de conexión: " . $conexion->connect_error);
 }
