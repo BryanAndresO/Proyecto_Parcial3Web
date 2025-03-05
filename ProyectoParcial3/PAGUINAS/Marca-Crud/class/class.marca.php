@@ -225,7 +225,15 @@ class vehiculo{
 		
 			<table class="table " border="2" align="center">
 				<tr>
-					<th class="text-center bg-dark text-white scope="col">DATOS Marca</th>
+					<th class="text-center bg-dark text-white" scope="col" colspan="2">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto">DATOS Marca</span>
+							</div>
+						</th>
+					
 				</tr>
 		
 
@@ -255,10 +263,19 @@ class vehiculo{
 				</tr>
 	
 				<tr>
-					<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
+					<th  class="text-center" colspan="2">
+						<button class="btn btn-outline-success" type="submit" name="Guardar"  value="GUARDAR">
+							<i class="fas fa-save"></i> GUARDAR
+						</button>
+
+						<a class="btn btn-outline-danger" href="index.php">
+							<i class="fas fa-times"></i> CANCELAR
+						</a>
+					</th>
+				</tr>		
 				</tr>												
 			</table>
-</form>
+		</form>
 			';
 
 		return $html;
@@ -276,10 +293,19 @@ class vehiculo{
 
 			<thead>
 				<tr>
-					<th class="text-center bg-dark text-white" scope="col" colspan="8"><h3>Lista de Marcas</h3></th>
+					<th class="text-center bg-dark text-white" scope="col" colspan="9">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="../index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto"><h3>Lista de Marcas</h3></span>
+							</div>
+					</th>
+					
 				</tr>
-				<tr>
-					<th class="text-center bg-dark " colspan="8"><a  class="btn btn-outline-warning px-5 text-white" href="index.php?d=' . $d_new_final . '">Ingresar una nueva Marca</a></th>
+				<tr>	
+				<th class="text-center bg-dark " colspan="9"><a class="btn btn-outline-primary px-5 text-white" href="index.php?d=' . $d_new_final . '"> <i class="bi bi-tags"></i> Ingresar una nueva Marca</a></th>
+					
 				</tr>
 					<tr class="text-center bg-dark text-white">
 					<th  class="text-center bg-dark text-white scope="col" >Id</th>

@@ -452,8 +452,18 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 		
   		<table class="table " border="1" align="center">
 				<tr>
-					<th  class="text-center bg-dark text-white scope="col" colspan="2">DATOS VEHÍCULO</th>
+					
+						<th class="text-center bg-dark text-white" scope="col" colspan="2">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto">DATOS VEHÍCULO</span>
+							</div>
+						</th>
+					
 				</tr>
+
 				<tr>
 					<td>Placa:</td>
 					<td><input type="text"  size="6" name="placa" value="' . $this->placa . '" required></td>
@@ -491,8 +501,17 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 					<td><input type="text" size="8" name="avaluo" value="' . $this->avaluo . '" ' . $flag . ' required></td>
 				</tr>
 				<tr>
-					<th  class="text-center" colspan="2"><input  class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
-				</tr>												
+					
+					<th  class="text-center" colspan="2">
+						<button class="btn btn-outline-success" type="submit" name="Guardar"  value="GUARDAR">
+							<i class="fas fa-save"></i> GUARDAR
+						</button>
+
+						<a class="btn btn-outline-danger" href="index.php">
+							<i class="fas fa-times"></i> CANCELAR
+						</a>
+					</th>
+					</tr>												
 			</table>';
 		return $html;
 	}
@@ -524,14 +543,22 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 		$d_new = "new/0";
 		$d_new_final = base64_encode($d_new);
 		if ($_SESSION['listaNote']->roles_id == 7) {	
-			$BotonesADM ='<th class="text-center bg-dark " colspan="9"><a class="btn btn-outline-warning px-5 text-white" href="index.php?d=' . $d_new_final . '">Nuevo</a></th>';
+			$BotonesADM ='<th class="text-center bg-dark " colspan="9"><a class="btn btn-outline-primary px-5 text-white" href="index.php?d=' . $d_new_final . '"> <i class="bi bi-car-front"></i> Ingresar un nuevo vehiculo</a></th>';
 		}
 		
 		$html = '
 		<table class="table" border="1" align="center">
 		<thead>
-			<tr>
-				<th  class="text-center bg-dark text-white" colspan="9"><h3>Lista de Vehículos</h3></th>
+			<tr>	
+				<th class="text-center bg-dark text-white" scope="col" colspan="9">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="../index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto"><h3>Lista de Vehículos</h3></span>
+							</div>
+				</th>
+				
 			</tr>
 			<tr>
 				'.$BotonesADM.'
@@ -679,7 +706,15 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				$html = '
 				<table class="table col-lg-2" border="1" align="center">
 					<tr>
-						<th class="text-center bg-dark text-white">DATOS DEL VEHÍCULO</th>
+						<th class="text-center bg-dark text-white" scope="col" >
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="../index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto"><h4>DATOS DEL VEHÍCULO</h4></span>
+							</div>
+					</th>
+						
 					</tr>
 					<tr>
 						
@@ -1008,7 +1043,7 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 
 			
 				<tr>
-				<th class="text-center" ><a class="btn btn-outline-success"  href="index.php">Regresar</a></th>
+					<th class="text-center" ><a class="btn btn-outline-success"  href="index.php">Regresar</a></th>
 					<th  class="text-center" colspan="2"><input  class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
 				</tr>												
 			</table>';
