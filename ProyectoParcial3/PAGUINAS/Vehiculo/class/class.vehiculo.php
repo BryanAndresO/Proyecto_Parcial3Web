@@ -862,7 +862,7 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 					foreach ($matriculaVehiculo->datos as $data) {
 						$html .= '<tr>
 							<td class="text-center">' . $matriculaVehiculo->placa . '</td>
-							<td class="text-center">' . $matriculaVehiculo->idvehiculo . '</td>
+						
 							<td class="text-center">' . $data['fecha'] . '</td>
 							<td class="text-center">' . $data['agencia'] . '</td>
 							<td class="text-center">' . $data['anio'] . '</td>
@@ -924,7 +924,10 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				</tr>
 				<tr>
 					<td>IdVehiculo:</td>
-					<td><input type="text"  size="6" name="idvehiculo" value="' . $matriculaVehiculo->idvehiculo  . '" required></td>
+					<td>
+						<input type="text" size="6" value="'. $matriculaVehiculo->idvehiculo.'" disabled>
+						<input type="hidden" name="idvehiculo" value="'.$matriculaVehiculo->idvehiculo.'">
+					</td>
 				</tr>
 				<tr>
 					<td>Fecha:</td>
@@ -932,7 +935,7 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				</tr>	
 				<tr>
 					<td>agencia:</td>
-					<td><input type="text" size="15" name="agencia" value="' . $agencia . '" required></td>
+					<td>' .$this->_get_combo_db('agencia','id','descripcion','agencia',$agencia) . '</td>
 				</tr>
 				<tr>
 					<td>anio:</td>
@@ -1192,9 +1195,6 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 			  // Obtener los años disponibles (suponiendo que los años van desde 2000 hasta el actual)
 
 			  $op = "multa";
-
-
-
 					$html .= '
 
 				<div class="container">
@@ -1211,16 +1211,25 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 										</tr>
 										<tr>
 											<td>IdVehiculo:</td>
-											<td><input type="text"  size="6" name="Midvehiculo" value="' . $multaVehiculo->idvehiculo  . '" required></td>
+											<td>
+												<input type="text" size="6" value="'. $multaVehiculo->idvehiculo.'" disabled>
+												<input type="hidden" name="Midvehiculo" value="'.$multaVehiculo->idvehiculo.'">
+											</td>
+											
 										</tr>
 										<tr>
 											<td size="2">Multa realizada por el Usuario Con ID: </td>
-								
-											<td><input type="text"  size="2" name="Midusuario" value="' .$_SESSION['listaNote']->id . '" required></td>
+											<td>
+											<input type="text" size="2" value="'. $_SESSION['listaNote']->id.'" disabled>
+											<input type="hidden"  size="2" name="Midusuario" value="' .$_SESSION['listaNote']->id . '" required>
+											</td>
 										</tr>
 										<tr>
 											<td>Cedula:</td>
-											<td><input type="text"  size="10" name="Mcedulapersona" value="' .$multaVehiculo->cedula . '" required></td>
+											<td>
+											<input type="text" size="10" value="'. $multaVehiculo->cedula.'" disabled>
+											<input type="hidden"  size="10" name="Mcedulapersona" value="' .$multaVehiculo->cedula . '">
+											</td>
 										</tr>
 										
 										<tr>
@@ -1311,16 +1320,27 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 									</tr>
 									<tr>
 										<td>IdVehiculo:</td>
-										<td><input type="text"  size="6" name="Midvehiculo" value="' . $rowidv['id']  . '" required></td>
+											<td>
+												<input type="text" size="6" value="'. $rowidv['id'].'" disabled>
+												<input type="hidden" name="Midvehiculo" value="'.$rowidv['id'].'">
+											</td>
 									</tr>
 									<tr>
 										<td size="2">Multa realizada por el Usuario Con ID: </td>
-										<td><input type="text"  size="6" name="Midusuario" value="' .$_SESSION['listaNote']->id . '" required></td>
+											<td>
+												<input type="text" size="2" value="'. $_SESSION['listaNote']->id.'" disabled>
+												<input type="hidden"  size="2" name="Midusuario" value="' .$_SESSION['listaNote']->id . '" required>
+											</td>
 									</tr>
+									
 									<tr>
 											<td>Cedula:</td>
-											<td><input type="text"  size="10" name="Mcedulapersona" value="' .$Propietario_cedula . '" required></td>
-										</tr>
+
+											<td>
+											<input type="text" size="10" value="'. $Propietario_cedula.'" disabled>
+											<input type="hidden"  size="10" name="Mcedulapersona" value="' .$Propietario_cedula . '">
+											</td>
+									</tr>
 									<tr>
 										<td>Multa:</td>
 										<td>' .$this->_get_combo_db('tipo_multas','ID_TIPO','DESCRIPCION','Mmulta',$multa) . '</td>
