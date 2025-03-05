@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vehículo</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
 <?php
 
 
@@ -1495,12 +1509,43 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 					if($Propietario_puntosLicencia >= 15){
 						$colorPuntos = "table-success";
 					}
-					if($Propietario_puntosLicencia <= 15 && $Propietario_puntosLicencia >= 10){
+					if($Propietario_puntosLicencia <= 14 && $Propietario_puntosLicencia >= 10){
 						$colorPuntos = "table-warning";
 					}
-					if($Propietario_puntosLicencia <= 10){
+					if($Propietario_puntosLicencia <= 9 && $Propietario_puntosLicencia >= 5){
 						$colorPuntos = "table-danger";
 					}
+					if($Propietario_puntosLicencia <= 5){
+						$colorPuntos = "table-danger";
+						$html .= '
+						<!-- Modal de Advertencia -->
+						<div class="modal fade" id="modalAdvertencia" tabindex="-1" aria-labelledby="modalAdvertenciaLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+						<div class="modal-header bg-danger text-white">
+							<h5 class="modal-title" id="modalAdvertenciaLabel">¡Advertencia!</h5>
+							<!-- Corregir la "X" para cerrar -->
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+						</div>
+						<div class="modal-body">
+							El propietario de este vehículo tiene 5 puntos o menos en su licencia. ¡Tome precauciones!
+						</div>
+						<div class="modal-footer">
+							<!-- Corregir el botón para cerrar -->
+							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Entendido</button>
+						</div>
+						</div>
+					</div>
+						</div>';
+					// Código JavaScript para abrir el modal automáticamente
+					$html .= "<script>$(document).ready(function() { $('#modalAdvertencia').modal('show'); });</script>";
+					}
+	
+
+
+
+
+					
 	
 					$html.='
 					<table class="table col-lg-2" border="1" align="center">
