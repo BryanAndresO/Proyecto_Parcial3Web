@@ -78,7 +78,7 @@ public function update_vehiculo(){
 		
 		$this->foto = $this->_get_name_file($_FILES['foto']['name'],12);
 		
-		$path = "../../../imagenes/agencia/" . $this->foto;
+		$path = "../../../imagenes/agencias/" . $this->foto;
 		
 		//exit;
 		if(!move_uploaded_file($_FILES['foto']['tmp_name'],$path)){
@@ -248,7 +248,15 @@ public function update_vehiculo(){
 		
 			<table class="table " border="2" align="center">
 				<tr>
-					<th class="text-center bg-dark text-white scope="col">DATOS Marca</th>
+					<th class="text-center bg-dark text-white" scope="col" colspan="2">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto">DATOS AGENCIA</span>
+							</div>
+						</th>
+					
 				</tr>
 		
 
@@ -285,15 +293,23 @@ public function update_vehiculo(){
 					<input type="text" size="15" name="horafin" value="' . $this->horafin . '"></td>
 				</tr>
 				<tr>
-
-					
 					<td>  
 					<label for="staticEmail" class="col-sm-3 col-form-label">Fotos :</label>
-					<input class="form-control-plaintext"  type="file" name="foto" ' . $flag . '></td>
+					<input class="form-control-plaintext"  type="file" name="foto" ' . $flag . '>
+					</td>
 				</tr>
 	
 				<tr>
-					<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
+					<th  class="text-center" colspan="2">
+						<button class="btn btn-outline-success" type="submit" name="Guardar"  value="GUARDAR">
+							<i class="fas fa-save"></i> GUARDAR
+						</button>
+
+						<a class="btn btn-outline-danger" href="index.php">
+							<i class="fas fa-times"></i> CANCELAR
+						</a>
+					</th>
+				</tr>		
 				</tr>												
 			</table>
 </form>
@@ -314,10 +330,19 @@ public function update_vehiculo(){
 
 			<thead>
 				<tr>
-					<th class="text-center bg-dark text-white" scope="col" colspan="10"><h3>Lista de Agencias</h3></th>
+					<th class="text-center bg-dark text-white" scope="col" colspan="10">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="../index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto"><h3>Lista Agencias</h3></span>
+							</div>
+					</th>
+					
 				</tr>
 				<tr>
-					<th class="text-center bg-dark " colspan="10"><a  class="btn btn-outline-warning px-5 text-white" href="index.php?d=' . $d_new_final . '">Ingresar una nueva Agencia</a></th>
+					<th class="text-center bg-dark " colspan="10"><a class="btn btn-outline-primary px-5 text-white" href="index.php?d=' . $d_new_final . '"><i class="fas fa-building"></i> Ingresar una nueva Agencia</a></th>
+					
 				</tr>
 					<tr class="text-center bg-dark text-white">
 					<th  class="text-center bg-dark text-white scope="col" >Id</th>

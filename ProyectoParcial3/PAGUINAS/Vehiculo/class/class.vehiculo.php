@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vehículo</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
 <?php
 
 
@@ -438,8 +452,18 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 		
   		<table class="table " border="1" align="center">
 				<tr>
-					<th  class="text-center bg-dark text-white scope="col" colspan="2">DATOS VEHÍCULO</th>
+					
+						<th class="text-center bg-dark text-white" scope="col" colspan="2">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto">DATOS VEHÍCULO</span>
+							</div>
+						</th>
+					
 				</tr>
+
 				<tr>
 					<td>Placa:</td>
 					<td><input type="text"  size="6" name="placa" value="' . $this->placa . '" required></td>
@@ -477,8 +501,17 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 					<td><input type="text" size="8" name="avaluo" value="' . $this->avaluo . '" ' . $flag . ' required></td>
 				</tr>
 				<tr>
-					<th  class="text-center" colspan="2"><input  class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
-				</tr>												
+					
+					<th  class="text-center" colspan="2">
+						<button class="btn btn-outline-success" type="submit" name="Guardar"  value="GUARDAR">
+							<i class="fas fa-save"></i> GUARDAR
+						</button>
+
+						<a class="btn btn-outline-danger" href="index.php">
+							<i class="fas fa-times"></i> CANCELAR
+						</a>
+					</th>
+					</tr>												
 			</table>';
 		return $html;
 	}
@@ -510,14 +543,22 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 		$d_new = "new/0";
 		$d_new_final = base64_encode($d_new);
 		if ($_SESSION['listaNote']->roles_id == 7) {	
-			$BotonesADM ='<th class="text-center bg-dark " colspan="9"><a class="btn btn-outline-warning px-5 text-white" href="index.php?d=' . $d_new_final . '">Nuevo</a></th>';
+			$BotonesADM ='<th class="text-center bg-dark " colspan="9"><a class="btn btn-outline-primary px-5 text-white" href="index.php?d=' . $d_new_final . '"> <i class="bi bi-car-front"></i> Ingresar un nuevo vehiculo</a></th>';
 		}
 		
 		$html = '
 		<table class="table" border="1" align="center">
 		<thead>
-			<tr>
-				<th  class="text-center bg-dark text-white" colspan="9"><h3>Lista de Vehículos</h3></th>
+			<tr>	
+				<th class="text-center bg-dark text-white" scope="col" colspan="9">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="../index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto"><h3>Lista de Vehículos</h3></span>
+							</div>
+				</th>
+				
 			</tr>
 			<tr>
 				'.$BotonesADM.'
@@ -665,7 +706,15 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				$html = '
 				<table class="table col-lg-2" border="1" align="center">
 					<tr>
-						<th class="text-center bg-dark text-white">DATOS DEL VEHÍCULO</th>
+						<th class="text-center bg-dark text-white" scope="col" >
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto"><h4>DATOS DEL VEHÍCULO</h4></span>
+							</div>
+					</th>
+						
 					</tr>
 					<tr>
 						
@@ -770,8 +819,16 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 			// Comienza la tabla
 			$html = '
 			<table class="table col-lg-2" border="1" align="center">
-				<tr>
-					<th class="text-center bg-dark text-white" colspan="5">DATOS DEL VEHÍCULO</th>
+				<tr>	
+						<th class="text-center bg-dark text-white" scope="col" colspan="5">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto">MATRICULAS REGISTRADAS</span>
+							</div>
+						</th>
+					
 				</tr>
 				<tr>
 					<th class="text-center">Placa</th>
@@ -813,9 +870,7 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 	
 			// Cierre de la tabla
 			$html .= '
-				<tr>
-					<th class="text-center" colspan="4"><a class="btn btn-outline-success" href="index.php">Regresar</a></th>
-				</tr>
+				
 			</table>';
 	
 			return $html;
@@ -831,7 +886,14 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 		} else { 
 			$html = '<table class="table col-lg-2" border="1" align="center">
 				<tr>
-					<th class="text-center bg-dark  text-white" colspan="5">MATRICULAS DEL VEHÍCULO</th>
+					<th class="text-center bg-dark text-white" scope="col" colspan="5">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto">MATRICULAS REGISTRADAS</span>
+							</div>
+						</th>
 				</tr>
 				<tr>
 					<th class="text-center">Placa</th>
@@ -848,7 +910,7 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 					foreach ($matriculaVehiculo->datos as $data) {
 						$html .= '<tr>
 							<td class="text-center">' . $matriculaVehiculo->placa . '</td>
-							<td class="text-center">' . $matriculaVehiculo->idvehiculo . '</td>
+						
 							<td class="text-center">' . $data['fecha'] . '</td>
 							<td class="text-center">' . $data['agencia'] . '</td>
 							<td class="text-center">' . $data['anio'] . '</td>
@@ -877,9 +939,7 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 		
 			}
 	  
-			  $html .= '<tr>
-				  <th class="text-center" colspan="4"><a class="btn btn-outline-success" href="index.php">Regresar</a></th>
-			  </tr>
+			  $html .= '
 			  </table>';
 	  
 
@@ -910,7 +970,10 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				</tr>
 				<tr>
 					<td>IdVehiculo:</td>
-					<td><input type="text"  size="6" name="idvehiculo" value="' . $matriculaVehiculo->idvehiculo  . '" required></td>
+					<td>
+						<input type="text" size="6" value="'. $matriculaVehiculo->idvehiculo.'" disabled>
+						<input type="hidden" name="idvehiculo" value="'.$matriculaVehiculo->idvehiculo.'">
+					</td>
 				</tr>
 				<tr>
 					<td>Fecha:</td>
@@ -918,11 +981,11 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				</tr>	
 				<tr>
 					<td>agencia:</td>
-					<td><input type="text" size="15" name="agencia" value="' . $agencia . '" required></td>
+					<td>' .$this->_get_combo_db('agencia','id','descripcion','agencia',$agencia) . '</td>
 				</tr>
 				<tr>
-					<td>anio:</td>
-					<td><select name="anio" required>';
+					<td>año:</td>
+					<td><select name="anio" class="form-select form-select-sm" aria-label=".form-select-sm example" required>';
 					
 					foreach ($aniosDisponibles as $anio) {
 						$html .= '<option value="' . $anio . '">' . $anio . '</option>';
@@ -934,8 +997,17 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 
 			
 				<tr>
-				<th class="text-center" ><a class="btn btn-outline-success"  href="index.php">Regresar</a></th>
-					<th  class="text-center" colspan="2"><input  class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
+
+					<th  class="text-center" colspan="2">
+						<button class="btn btn-outline-success" type="submit" name="Guardar"  value="GUARDAR">
+							<i class="fas fa-save"></i> GUARDAR
+						</button>
+
+						<a class="btn btn-outline-danger" href="index.php">
+							<i class="fas fa-times"></i> CANCELAR
+						</a>
+					</th>
+				
 				</tr>												
 			</table>';
 		}else{
@@ -960,9 +1032,14 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				<tr>
 					<th class="text-center bg-dark text-white scope="col" colspan="2">DATOS VEHÍCULO</th>
 				</tr>
+
+				
 				<tr>
 					<td>IdVehiculo:</td>
-					<td><input type="text"  size="6" name="idvehiculo" value="' .$rowidv['id'] . '" required></td>
+					<td>
+						<input type="text" size="6" value="'. $rowidv['id'].'" disabled>
+						<input type="hidden" name="idvehiculo" value="'.$rowidv['id'] .'">
+					</td>
 				</tr>
 				<tr>
 					<td>Fecha:</td>
@@ -973,8 +1050,8 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 					<td>' .$this->_get_combo_db('agencia','id','descripcion','agencia',$agencia) . '</td>
 				</tr>
 				<tr>
-					<td>anio:</td>
-					<td><select name="anio" required>';
+					<td>año:</td>
+					<td><select name="anio" class="form-select form-select-sm" aria-label=".form-select-sm example" required>';
 					
 							foreach ($aniosDisponibles as $anio) {
 								$html .= '<option value="' . $anio . '">' . $anio . '</option>';
@@ -986,8 +1063,15 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 
 			
 				<tr>
-				<th class="text-center" ><a class="btn btn-outline-success"  href="index.php">Regresar</a></th>
-					<th  class="text-center" colspan="2"><input  class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
+					<th  class="text-center" colspan="2">
+						<button class="btn btn-outline-success" type="submit" name="Guardar"  value="GUARDAR">
+							<i class="fas fa-save"></i> GUARDAR
+						</button>
+
+						<a class="btn btn-outline-danger" href="index.php">
+							<i class="fas fa-times"></i> CANCELAR
+						</a>
+					</th>
 				</tr>												
 			</table>';
 		}
@@ -1056,7 +1140,15 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				$html.='
 				<table class="table col-lg-2" border="1" align="center">
 					<tr>
-					<th class="text-center bg-primary text-white" colspan="6">DATOS DEL PROPIETARIO</th>
+						<th class="text-center bg-primary text-white" scope="col" colspan="6">
+									<div class="d-flex justify-content-between align-items-center">
+										<a class="btn btn-outline-light" href="index.php">
+											<i class="fas fa-arrow-left"></i> 
+										</a>
+										<span class="mx-auto">DATOS DEL PROPIETARIO</span>
+									</div>
+								</th>
+
 					</tr>
 					<tr>
 						
@@ -1088,7 +1180,14 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				$html.= '
 					<table class="table col-lg-2" border="1" align="center">
 					<tr>
-					<th class="text-center bg-primary text-white" colspan="6">DATOS DEL PROPIETARIO</th>
+					<th class="text-center bg-primary text-white" scope="col" colspan="6">
+									<div class="d-flex justify-content-between align-items-center">
+										<a class="btn btn-outline-light" href="index.php">
+											<i class="fas fa-arrow-left"></i> 
+										</a>
+										<span class="mx-auto">DATOS DEL PROPIETARIO</span>
+									</div>
+								</th>
 					</tr>
 					<tr>
 					<th class="text-center bg-danger text-white" colspan="6">No tiene asignado algun propietario</th>
@@ -1161,9 +1260,7 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 	  
 			  $html .= '
 
-			  <tr>
-				  <th class="text-center" colspan="6"><a class="btn btn-outline-success" href="index.php">Regresar</a></th>
-			  </tr>
+			  
 			  </table>';
 	  
 
@@ -1178,9 +1275,6 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 			  // Obtener los años disponibles (suponiendo que los años van desde 2000 hasta el actual)
 
 			  $op = "multa";
-
-
-
 					$html .= '
 
 				<div class="container">
@@ -1197,16 +1291,25 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 										</tr>
 										<tr>
 											<td>IdVehiculo:</td>
-											<td><input type="text"  size="6" name="Midvehiculo" value="' . $multaVehiculo->idvehiculo  . '" required></td>
+											<td>
+												<input type="text" size="6" value="'. $multaVehiculo->idvehiculo.'" disabled>
+												<input type="hidden" name="Midvehiculo" value="'.$multaVehiculo->idvehiculo.'">
+											</td>
+											
 										</tr>
 										<tr>
 											<td size="2">Multa realizada por el Usuario Con ID: </td>
-								
-											<td><input type="text"  size="2" name="Midusuario" value="' .$_SESSION['listaNote']->id . '" required></td>
+											<td>
+											<input type="text" size="2" value="'. $_SESSION['listaNote']->id.'" disabled>
+											<input type="hidden"  size="2" name="Midusuario" value="' .$_SESSION['listaNote']->id . '" required>
+											</td>
 										</tr>
 										<tr>
 											<td>Cedula:</td>
-											<td><input type="text"  size="10" name="Mcedulapersona" value="' .$multaVehiculo->cedula . '" required></td>
+											<td>
+											<input type="text" size="10" value="'. $multaVehiculo->cedula.'" disabled>
+											<input type="hidden"  size="10" name="Mcedulapersona" value="' .$multaVehiculo->cedula . '">
+											</td>
 										</tr>
 										
 										<tr>
@@ -1221,9 +1324,15 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 
 									
 										<tr>
-										<th class="text-center" ><a class="btn btn-outline-success"  href="index.php">Regresar</a></th>
-											<th  class="text-center" colspan="2"><input  class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
-										</tr>												
+										<th  class="text-center" colspan="2">
+											<button class="btn btn-outline-success" type="submit" name="Guardar"  value="GUARDAR">
+												<i class="fas fa-save"></i> GUARDAR
+											</button>
+
+											<a class="btn btn-outline-danger" href="index.php">
+												<i class="fas fa-times"></i> CANCELAR
+											</a>
+										</th>												
 									</table>
 							</form>
 
@@ -1297,16 +1406,27 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 									</tr>
 									<tr>
 										<td>IdVehiculo:</td>
-										<td><input type="text"  size="6" name="Midvehiculo" value="' . $rowidv['id']  . '" required></td>
+											<td>
+												<input type="text" size="6" value="'. $rowidv['id'].'" disabled>
+												<input type="hidden" name="Midvehiculo" value="'.$rowidv['id'].'">
+											</td>
 									</tr>
 									<tr>
 										<td size="2">Multa realizada por el Usuario Con ID: </td>
-										<td><input type="text"  size="6" name="Midusuario" value="' .$_SESSION['listaNote']->id . '" required></td>
+											<td>
+												<input type="text" size="2" value="'. $_SESSION['listaNote']->id.'" disabled>
+												<input type="hidden"  size="2" name="Midusuario" value="' .$_SESSION['listaNote']->id . '" required>
+											</td>
 									</tr>
+									
 									<tr>
 											<td>Cedula:</td>
-											<td><input type="text"  size="10" name="Mcedulapersona" value="' .$Propietario_cedula . '" required></td>
-										</tr>
+
+											<td>
+											<input type="text" size="10" value="'. $Propietario_cedula.'" disabled>
+											<input type="hidden"  size="10" name="Mcedulapersona" value="' .$Propietario_cedula . '">
+											</td>
+									</tr>
 									<tr>
 										<td>Multa:</td>
 										<td>' .$this->_get_combo_db('tipo_multas','ID_TIPO','DESCRIPCION','Mmulta',$multa) . '</td>
@@ -1319,8 +1439,15 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 
 								
 									<tr>
-									<th class="text-center" ><a class="btn btn-outline-success"  href="index.php">Regresar</a></th>
-										<th  class="text-center" colspan="2"><input  class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
+											<th  class="text-center" colspan="2">
+											<button class="btn btn-outline-success" type="submit" name="Guardar"  value="GUARDAR">
+												<i class="fas fa-save"></i> GUARDAR
+											</button>
+
+											<a class="btn btn-outline-danger" href="index.php">
+												<i class="fas fa-times"></i> CANCELAR
+											</a>
+										</th>	
 									</tr>												
 								</table>
 						
@@ -1495,17 +1622,56 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 					if($Propietario_puntosLicencia >= 15){
 						$colorPuntos = "table-success";
 					}
-					if($Propietario_puntosLicencia <= 15 && $Propietario_puntosLicencia >= 10){
+					if($Propietario_puntosLicencia <= 14 && $Propietario_puntosLicencia >= 10){
 						$colorPuntos = "table-warning";
 					}
-					if($Propietario_puntosLicencia <= 10){
+					if($Propietario_puntosLicencia <= 9 && $Propietario_puntosLicencia >= 5){
 						$colorPuntos = "table-danger";
 					}
+					if($Propietario_puntosLicencia <= 5){
+						$colorPuntos = "table-danger";
+						$html .= '
+						<!-- Modal de Advertencia -->
+						<div class="modal fade" id="modalAdvertencia" tabindex="-1" aria-labelledby="modalAdvertenciaLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+						<div class="modal-header bg-danger text-white">
+							<h5 class="modal-title" id="modalAdvertenciaLabel">¡Advertencia!</h5>
+							<!-- Corregir la "X" para cerrar -->
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+						</div>
+						<div class="modal-body">
+							El propietario de este vehículo tiene 5 puntos o menos en su licencia. ¡Tome precauciones!
+						</div>
+						<div class="modal-footer">
+							<!-- Corregir el botón para cerrar -->
+							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Entendido</button>
+						</div>
+						</div>
+					</div>
+						</div>';
+					// Código JavaScript para abrir el modal automáticamente
+					$html .= "<script>$(document).ready(function() { $('#modalAdvertencia').modal('show'); });</script>";
+					}
+	
+
+
+
+
+					
 	
 					$html.='
 					<table class="table col-lg-2" border="1" align="center">
 						<tr>
-						<th class="text-center bg-primary text-white" colspan="6">DATOS DEL PROPIETARIO</th>
+						<th class="text-center bg-primary text-white" scope="col" colspan="6">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-light" href="index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto">DATOS DEL PROPIETARIO</span>
+							</div>
+						</th>
+						
 						</tr>
 						<tr>
 							
@@ -1556,7 +1722,14 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 					
 					$html.= '
 							<tr>
-								<th class="text-center bg-dark text-white" colspan="6">DATOS DE LAS MULTAS DEL VEHICULO</th>
+								<th class="text-center bg-primary text-white" scope="col" colspan="6">
+									<div class="d-flex justify-content-between align-items-center">
+										<a class="btn btn-outline-light" href="index.php">
+											<i class="fas fa-arrow-left"></i> 
+										</a>
+										<span class="mx-auto">DATOS DEL PROPIETARIO</span>
+									</div>
+								</th>
 							</tr>
 							<tr>
 								<th class="text-center">Placa</th>
