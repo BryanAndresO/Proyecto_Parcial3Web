@@ -977,9 +977,14 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				<tr>
 					<th class="text-center bg-dark text-white scope="col" colspan="2">DATOS VEHÍCULO</th>
 				</tr>
+
+				
 				<tr>
 					<td>IdVehiculo:</td>
-					<td><input type="text"  size="6" name="idvehiculo" value="' .$rowidv['id'] . '" required></td>
+					<td>
+						<input type="text" size="6" value="'. $rowidv['id'].'" disabled>
+						<input type="hidden" name="idvehiculo" value="'.$rowidv['id'] .'">
+					</td>
 				</tr>
 				<tr>
 					<td>Fecha:</td>
