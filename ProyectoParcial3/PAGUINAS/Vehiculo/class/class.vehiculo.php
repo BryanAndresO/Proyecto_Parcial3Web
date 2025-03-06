@@ -647,7 +647,7 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 					$Botones .= '<td><a class="btn btn-outline-secondary btn-lg " href="index.php?d=' . $d_det_final . '">Detalle</a></td>';
 					$Botones .= '<td><a class="btn btn-outline-success btn-lg " href="index.php?d=' . $d_det_final1 . '">Consulta</a></td>';
 					$Botones .= '<td><a class="btn btn-outline-warning btn-lg " href="index.php?d=' . $d_det_final2 . '">Matricular</a></td>';
-					$Botones .= '<td><a class="btn btn-outline-danger btn-lg " href="index.php?d=' . $d_det_final3 . '">Mular</a></td>';
+					$Botones .= '<td><a class="btn btn-outline-danger btn-lg " href="index.php?d=' . $d_det_final3 . '">Multar</a></td>';
 				}  
 				if ($_SESSION['listaNote']->roles_id == 7) { 
 					$Botones .= '<td><a class="btn btn-outline-danger custom-btn-1 btn-lg " href="index.php?d=' . $d_del_final . '">Borrar</a></td>';
