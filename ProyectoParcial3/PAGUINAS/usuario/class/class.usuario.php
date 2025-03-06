@@ -46,12 +46,12 @@ class usuario1
 		//*********************** 3.2 METODO save_vehiculo() **************************************************	
 		public function save_vehiculo() {
 			// Escapar los valores para prevenir inyección SQL
-			$this->username = $this->con->real_escape_string($_POST['username']);
+			$this->username = $this->con->real_escape_string($_POST['username']);  // Placa del vehículo
 			$this->password = $this->con->real_escape_string($_POST['password']);
 			$this->roles_id = intval($_POST['marcaCMB']);  // Asegurar que roles_id es un número
 		
 			if ($this->username != null) {
-				// Verificar si el username ya existe en la tabla `usuarios`
+				// Verificar si el username (placa) ya existe en la tabla `usuarios`
 				$sql_check_user = "SELECT id FROM usuarios WHERE username = '$this->username'";
 				$result_user = $this->con->query($sql_check_user);
 		
@@ -78,15 +78,26 @@ class usuario1
 					// Guardar el ID del usuario recién insertado
 					$idUsuario = $this->con->insert_id;
 		
-					// Mostrar el formulario de persona
-					$this->show_persona_form($idUsuario);
+					// Obtener el ID_VEHICULO asociado a la placa
+					$sql_vehiculo = "SELECT id FROM vehiculo WHERE placa = '$this->username'";
+					$result_vehiculo = $this->con->query($sql_vehiculo);
+		
+					if ($result_vehiculo->num_rows > 0) {
+						$row = $result_vehiculo->fetch_assoc();
+						$idVehiculo = $row['id'];  // Obtener el ID_VEHICULO del vehículo relacionado
+		
+						// Mostrar el formulario de persona y pasar el ID_USUARIO e ID_VEHICULO
+						$this->show_persona_form($idUsuario, $idVehiculo);
+					} else {
+						echo $this->_message_error("No se encontró un vehículo con la placa proporcionada.");
+						return;
+					}
 				} else {
 					echo $this->_message_error("guardar");
 				}
 			}
 		}
-		
-		private function show_persona_form($idUsuario) {	
+		private function show_persona_form($idUsuario, $idVehiculo) {
 			// Mostrar el formulario de persona
 			$html = '
 			<form class="col-lg-5 col-ms-5" name="persona" method="POST" action="index.php" enctype="multipart/form-data">
@@ -120,7 +131,6 @@ class usuario1
 		
 			echo $html;
 		}
-
 
 
 
