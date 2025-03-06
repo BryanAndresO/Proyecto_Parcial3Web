@@ -339,7 +339,8 @@ class vehiculo{
 				<td class="text-center "  ><a class="btn btn-outline-secondary btn-lg " href="index.php?d=' . $d_det_final . '">Detalle</a></td>
 			</tr>';
 		}
-		$html .= '  
+		$html .= '
+  		<th class="text-center bg-dark " colspan="10"><a class="btn btn-outline-success"  href="../index.php">Regresar</a></th>  
 		</table>';
 		
 		return $html;
