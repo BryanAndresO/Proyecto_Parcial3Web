@@ -1,8 +1,5 @@
-
-
-
 <?php
-class vehiculo{
+class marca{
 	private $id;
 	private $descripcion;
 	private $pais;
@@ -16,9 +13,9 @@ class vehiculo{
 	}
 		
 		
-//*********************** 3.1 METODO update_vehiculo() **************************************************	
+//*********************** 3.1 METODO update_marca() **************************************************	
 	
-	public function update_vehiculo(){
+	public function update_marca(){
 		$this->id = $_POST['id'];
 		$this->descripcion = $_POST['descripcion'];
 		$this->pais = $_POST['pais'];
@@ -42,9 +39,9 @@ class vehiculo{
 	}
 	
 
-//*********************** 3.2 METODO save_vehiculo() **************************************************	
+//*********************** 3.2 METODO save_marca() **************************************************	
 
-	public function save_vehiculo(){
+	public function save_marca(){
 		
 		
 		$this->id = $_POST['id'];
@@ -152,11 +149,11 @@ class vehiculo{
 				<td>';
 				
 				if($defecto == NULL){
-					// OPCION PARA GRABAR UN NUEVO VEHICULO (id=0)
+					// OPCION PARA GRABAR UNA NUEVA MARCA (id=0)
 					$html .= '<input type="radio" value="' . $etiqueta . '" name="' . $nombre . '" checked/></td>';
 				
 				}else{
-					// OPCION PARA MODIFICAR UN VEHICULO EXISTENTE
+					// OPCION PARA MODIFICAR UNA MARCA EXISTENTE
 					$html .= ($defecto == $etiqueta)? '<input type="radio" value="' . $etiqueta . '" name="' . $nombre . '" checked/></td>' : '<input type="radio" value="' . $etiqueta . '" name="' . $nombre . '"/></td>';
 				}
 			
@@ -340,7 +337,7 @@ class vehiculo{
 			</tr>';
 		}
 		$html .= '
-  		<th class="text-center bg-dark " colspan="10"><a class="btn btn-outline-success"  href="../index.php">Regresar</a></th>  
+		<th class="text-center bg-dark " colspan="10"><a class="btn btn-outline-success"  href="../index.php">Regresar</a></th>  
 		</table>';
 		
 		return $html;
@@ -348,7 +345,7 @@ class vehiculo{
 	}
 	
 	
-	public function get_detail_vehiculo($id){
+	public function get_detail_marca($id){
 		$sql = "SELECT * FROM matriculacionfinal.marca where id=$id;";
 		$res = $this->con->query($sql);
 		$row = $res->fetch_assoc();
@@ -366,9 +363,15 @@ class vehiculo{
         }else{ 
 				$html = '
 				<table class="table col-lg-2" border="1" align="center">
-						<tr>
-							<th class="text-center bg-dark text-white"  colspan="2">DATOS DEL MARCA</th>
-						</tr>
+						<th class="text-center bg-dark text-white" colspan="2">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto">DATOS DEL MARCA</span>
+							</div>
+						</th>
+
 
 						<tr>
 			
@@ -409,7 +412,7 @@ class vehiculo{
 	}
 	
 	
-	public function delete_vehiculo($id){
+	public function delete_marca($id){
 		$sql = "DELETE FROM marca WHERE id=$id;";
 		if($this->con->query($sql)){	
 			echo $this->_message_ok("ELIMINÓ");
