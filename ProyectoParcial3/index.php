@@ -22,7 +22,7 @@ session_start();
 // Conexión a la base de datos
 $servername = "localhost";
 $username = "root"; // Ajusta según tu configuración
-$password = "andres"; // Ajusta según tu configuración
+$password = ""; // Ajusta según tu configuración
 $database = "matriculacionfinal";
 
 $conn = new mysqli($servername, $username, $password, $database);

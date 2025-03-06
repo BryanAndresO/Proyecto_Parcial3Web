@@ -19,7 +19,7 @@ require_once 'Usuario.php';
 	
 
 	//Conectar a la base de datos
-	$conexion = mysqli_connect("localhost", "root", "andres", "matriculacionfinal");
+	$conexion = mysqli_connect("localhost", "root", "", "matriculacionfinal");
 	$consulta = "SELECT * FROM usuarios WHERE username = '$usuario' and password = '$clave'";
 	$resultado = mysqli_query($conexion, $consulta);
 
