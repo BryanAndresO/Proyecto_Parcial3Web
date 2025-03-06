@@ -2,7 +2,7 @@
 require_once("constantes.php");
 include_once("class/class.usuario.php");
 require_once 'class/class.persona.php'; // Incluir la clase Persona
-
+require_once '../../Usuario.php';
 session_start();
 
 $cn = conectar();

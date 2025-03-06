@@ -24,7 +24,7 @@ class MultasVehiculo{
         $this->cedula = $cedula;
         $this->puntosLicencia = $puntosLicencia;
     	$this->idusuario = $idusuario;
-        $this->placa = $placa;
+
 
     }
 
