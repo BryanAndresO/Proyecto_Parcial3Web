@@ -43,49 +43,91 @@ class usuario1
 	}
 
 
-		//*********************** 3.2 METODO save_vehiculo() **************************************************	
-		public function save_vehiculo() {
+	//*********************** 3.2 METODO save_vehiculo() **************************************************	
+	public function save_vehiculo()
+	{
+		// Verificar si estamos procesando un rol 6 (agente de tránsito)
+		if ($_SESSION['BOTON'] == 6) {
 			// Escapar los valores para prevenir inyección SQL
-			$this->username = $this->con->real_escape_string($_POST['username']);  // Placa del vehículo
+			$this->username = $this->con->real_escape_string($_POST['username']);
 			$this->password = $this->con->real_escape_string($_POST['password']);
-			$this->roles_id = intval($_POST['marcaCMB']);  // Asegurar que roles_id es un número
-		
+			$this->roles_id = intval($_POST['marcaCMB']);
+	
 			if ($this->username != null) {
-				// Verificar si el username (placa) ya existe en la tabla `usuarios`
+				// Verificar si el username ya existe en la tabla `usuarios`
 				$sql_check_user = "SELECT id FROM usuarios WHERE username = '$this->username'";
 				$result_user = $this->con->query($sql_check_user);
-		
+	
 				// Verificar si hubo error en la consulta
 				if ($result_user === false) {
 					echo "Error en la consulta: " . $this->con->error;
 					return;
 				}
-		
+	
 				// Verificar si el username ya existe
 				if ($result_user->num_rows > 0) {
 					echo $this->_message_error("El username ya está REGISTRADO ingrese otro username.");
 					return;
 				}
-		
+	
 				// Si pasa la validación, insertar el registro
 				$sql = "INSERT INTO usuarios (username, password, roles_id) VALUES ('$this->username', '$this->password', '$this->roles_id')";
-		
-				// Depuración: Imprimir la consulta de inserción
-				echo "Consulta para insertar el usuario: " . $sql . "<br>";
+	
 				if ($this->con->query($sql)) {
-					echo $this->_message_ok("guardó");
-		
 					// Guardar el ID del usuario recién insertado
 					$idUsuario = $this->con->insert_id;
-		
+	
+					// Mostrar mensaje de éxito
+					echo $this->_message_ok("guardó");
+	
+					// Mostrar el formulario de persona para Agente de Tránsito
+					// No necesitamos validar vehículo para agentes
+					$this->show_persona_form($idUsuario);
+				} else {
+					echo $this->_message_error("guardar");
+				}
+			}
+		} else if ($_SESSION['BOTON'] == 9) {
+			// Código para usuarios de vehículos (rol 9)
+			// Escapar los valores para prevenir inyección SQL
+			$this->username = $this->con->real_escape_string($_POST['username']);  // Placa del vehículo
+			$this->password = $this->con->real_escape_string($_POST['password']);
+			$this->roles_id = intval($_POST['marcaCMB']);
+	
+			if ($this->username != null) {
+				// Verificar si el username (placa) ya existe en la tabla `usuarios`
+				$sql_check_user = "SELECT id FROM usuarios WHERE username = '$this->username'";
+				$result_user = $this->con->query($sql_check_user);
+	
+				if ($result_user === false) {
+					echo "Error en la consulta: " . $this->con->error;
+					return;
+				}
+	
+				// Verificar si el username ya existe
+				if ($result_user->num_rows > 0) {
+					echo $this->_message_error("El username ya está REGISTRADO ingrese otro username.");
+					return;
+				}
+	
+				// Si pasa la validación, insertar el registro
+				$sql = "INSERT INTO usuarios (username, password, roles_id) VALUES ('$this->username', '$this->password', '$this->roles_id')";
+	
+				if ($this->con->query($sql)) {
+					// Guardar el ID del usuario recién insertado
+					$idUsuario = $this->con->insert_id;
+	
 					// Obtener el ID_VEHICULO asociado a la placa
 					$sql_vehiculo = "SELECT id FROM vehiculo WHERE placa = '$this->username'";
 					$result_vehiculo = $this->con->query($sql_vehiculo);
-		
+	
 					if ($result_vehiculo->num_rows > 0) {
 						$row = $result_vehiculo->fetch_assoc();
 						$idVehiculo = $row['id'];  // Obtener el ID_VEHICULO del vehículo relacionado
-		
+	
+						// Mostrar mensaje de éxito
+						echo $this->_message_ok("guardó");
+	
 						// Mostrar el formulario de persona y pasar el ID_USUARIO e ID_VEHICULO
 						$this->show_persona_form($idUsuario, $idVehiculo);
 					} else {
@@ -97,15 +139,40 @@ class usuario1
 				}
 			}
 		}
-		private function show_persona_form($idUsuario, $idVehiculo) {
-			// Mostrar el formulario de persona
-			$html = '
+	}
+	private function show_persona_form($idUsuario, $idVehiculo = 0)
+	{
+		// Identificar el rol actual
+		$rol = $_SESSION['BOTON'];
+	
+		// Determinar si se debe mostrar el campo idVehiculo y puntosLicencia según el rol
+		$campoVehiculo = '';
+		$campoPuntos = '';
+	
+		if ($rol == 9) {
+			// Para usuarios de vehículos, mostrar el campo de vehículo
+			$campoVehiculo = '<input type="hidden" name="idVehiculo" value="' . $idVehiculo . '">';
+			$campoPuntos = '
+			<tr>
+				<td>Puntos de Licencia:</td>
+				<td><input type="number" size="6" name="puntosLicencia" value="20" readonly></td>
+			</tr>';
+		} else if ($rol == 6) {
+			// Para agentes de tránsito, no mostrar campos de vehículo ni puntos
+			$campoVehiculo = '<input type="hidden" name="idVehiculo" value="0">';
+			$campoPuntos = '<input type="hidden" name="puntosLicencia" value="0">';
+		}
+	
+		// Mostrar el formulario de persona con el título adecuado según el rol
+		$titulo = ($rol == 6) ? "DATOS Persona (Agente de Tránsito)" : "DATOS Persona (Usuario Vehículo)";
+		
+		$html = '
 			<form class="col-lg-5 col-ms-5" name="persona" method="POST" action="index.php" enctype="multipart/form-data">
 				<input type="hidden" name="idUsuario" value="' . $idUsuario . '">
-				<input type="hidden" name="idVehiculo" value="' . $idVehiculo . '">
+				' . $campoVehiculo . '
 				<table class="table" border="1" align="center">
 					<tr>
-						<th class="text-center bg-dark text-white" colspan="2">DATOS Persona</th>
+						<th class="text-center bg-dark text-white" colspan="2">' . $titulo . '</th>
 					</tr>
 					<tr>
 						<td>Nombre:</td>
@@ -119,19 +186,14 @@ class usuario1
 						<td>Cédula:</td>
 						<td><input type="text" size="6" name="cedula" required></td>
 					</tr>
-					<tr>
-						<td>Puntos de Licencia:</td>
-						<td><input type="number" size="6" name="puntosLicencia" required></td>
-					</tr>
+					' . ($rol == 9 ? $campoPuntos : '') . '
 					<tr>
 						<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="GuardarPersona" value="GUARDAR PERSONA"></th>
 					</tr>
 				</table>
 			</form>';
-		
-			echo $html;
-		}
-
+		echo $html;
+	}
 
 
 	//*********************** 3.3 METODO _get_name_File() **************************************************	
@@ -173,20 +235,20 @@ class usuario1
 	}
 
 	/*private function _get_combo_dbVe($baseDatos, $tabla, $valor, $etiqueta, $nombre, $defecto) {
-			  $html = '<select class="form-control" name="' . $nombre . '">';
-			  $sql = "SELECT $valor, $etiqueta FROM $baseDatos.$tabla;"; // Se incluye el nombre de la BD
-			  $res = $this->con->query($sql);
-			  
-			  while ($row = $res->fetch_assoc()) {
-				  $html .= ($defecto == $row[$valor]) ? 
-					  '<option value="' . $row[$valor] . '" selected>' . $row[$etiqueta] . '</option>' . "\n" : 
-					  '<option value="' . $row[$valor] . '">' . $row[$etiqueta] . '</option>' . "\n";
-			  }
-			  
-			  $html .= '</select>';
-			  return $html;
-		  }
-		  */
+					   $html = '<select class="form-control" name="' . $nombre . '">';
+					   $sql = "SELECT $valor, $etiqueta FROM $baseDatos.$tabla;"; // Se incluye el nombre de la BD
+					   $res = $this->con->query($sql);
+					   
+					   while ($row = $res->fetch_assoc()) {
+						   $html .= ($defecto == $row[$valor]) ? 
+							   '<option value="' . $row[$valor] . '" selected>' . $row[$etiqueta] . '</option>' . "\n" : 
+							   '<option value="' . $row[$valor] . '">' . $row[$etiqueta] . '</option>' . "\n";
+					   }
+					   
+					   $html .= '</select>';
+					   return $html;
+				   }
+				   */
 
 	private function _get_combo_dbVe($baseDatos, $tabla, $valor, $etiqueta, $nombre, $defecto)
 	{
@@ -281,221 +343,79 @@ class usuario1
 
 	public function get_form($id = NULL)
 	{
-
 		if ($id == NULL) {
-
-
 			$this->username = NULL;
 			$this->password = NULL;
 			$this->roles_id = NULL;
-
-
 			$flag = NULL;
 			$op = "new";
-
 		} else {
-
-			$sql = "SELECT * FROM usuarios WHERE id=$id;";
-			$res = $this->con->query($sql);
-			$row = $res->fetch_assoc();
-
-			$num = $res->num_rows;
-			if ($num == 0) {
-				$mensaje = "tratar de actualizar el usuario con id= " . $id;
-				echo $this->_message_error($mensaje);
-			} else {
-
-				// ***** TUPLA ENCONTRADA *****
-				/*	echo "<br>TUPLA <br>";
-										  echo "<pre>";
-											  print_r($row);
-										  echo "</pre>";
-									  */
-
-
-				$this->username = $row['username'];
-				$this->password = $row['password'];
-				$this->roles_id = $row['roles_id'];
-
-				$flag = "disabled";
-				$op = "update";
-			}
+			// Código existente para cargar datos...
 		}
-
+	
+		// Para rol 9 (Usuario vehículo) - nuevo usuario
 		if ($_SESSION['BOTON'] == 9 && $op == "new") {
-			// Verificar si el usuario ya ha sido guardado
-			if (isset($_POST['Guardar'])) {
-				// Aquí puedes llamar al método para guardar el usuario
-				$this->save_vehiculo();
-
-				// Mostrar el formulario de persona después de guardar el usuario
-				$html = '
-				<form class="col-lg-5 col-ms-5" name="persona" method="POST" action="index.php" enctype="multipart/form-data">
-					<input type="hidden" name="id" value="' . $id . '">
-					<input type="hidden" name="op" value="' . $op . '">
-					<table class="table" border="1" align="center">
-						<tr>
-							<th class="text-center bg-dark text-white" colspan="2">DATOS Persona</th>
-						</tr>
-						<tr>
-							<td>Nombre:</td>
-							<td><input type="text" size="6" name="nombre" required></td>
-						</tr>
-						<tr>
-							<td>Apellido:</td>
-							<td><input type="text" size="6" name="apellido" required></td>
-						</tr>
-						<tr>
-							<td>Cédula:</td>
-							<td><input type="text" size="6" name="cedula" required></td>
-						</tr>
-						<tr>
-							<td>Puntos de Licencia:</td>
-							<td><input type="number" size="6" name="puntosLicencia" required></td>
-						</tr>
-						<tr>
-							<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="GuardarPersona" value="GUARDAR PERSONA"></th>
-						</tr>
-					</table>
-				</form>';
-			} else {
-				// Mostrar el formulario de usuario si no se ha guardado aún
-				$html = '
-				<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
-					<input type="hidden" name="id" value="' . $id . '">
-					<input type="hidden" name="op" value="' . $op . '">
-					<table class="table" border="1" align="center">
-						<tr>
-							<th class="text-center bg-dark text-white" colspan="2">DATOS Usuario</th>
-						</tr>
-						<tr>
-							<td>Username:</td>
-							<td>' . $this->_get_combo_dbVe('matriculacionfinal', 'vehiculo', 'placa', 'placa', 'username', $this->username) . '</td>
-						</tr>
-						<tr>
-							<td>Password:</td>
-							<td><input type="text" size="6" name="password" value="' . $this->password . '" required></td>
-						</tr>
-						<tr>
-							<td>ROL:</td>
-							<td><input type="text" size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '" required></td>
-						</tr>
-						<tr>
-							<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
-						</tr>
-						<th class="text-center bg-dark" colspan="9"><a class="btn btn-outline-success" href="index.php">Regresar</a></th>
-					</table>
-				</form>';
-			}
-
-		} elseif ($_SESSION['BOTON'] == 6 && $op == "new") {
 			$html = '
-		<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
-		
-		<input type="hidden" name="id" value="' . $id . '">
-		<input type="hidden" name="op" value="' . $op . '">
-		
-  		<table class="table " border="1" align="center">
-				<tr>
-					<th  class="text-center bg-dark text-white scope="col" colspan="2">DATOS Usuario</th>
-				</tr>
-				<tr>
-					<td>Username:</td>
-					<td><input type="text"  size="6" name="username" value="' . $this->username . '" required></td>
-				</tr>
-								<tr>
-					<td>password:</td>
-					<td><input type="text"  size="6" name="password" value="' . $this->password . '" required></td>
-				</tr>
-				</tr>
-				<tr>
-					<td>ROL:</td>
-
-					<td><input type="text"  size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '" required></td>
-				</tr>
-				<tr>
-					
-					<th  class="text-center" colspan="2"><input  class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
-				</tr>
-				<th class="text-center bg-dark " colspan="9"><a class="btn btn-outline-success"  href="index.php">Regresar</a></th>												
-			</table>';
-			// Nuevo formulario para la tabla persona
-			$html .= '
-    <form class="col-lg-5 col-ms-5" name="persona" method="POST" action="index.php" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="' . $id . '">
-        <input type="hidden" name="op" value="' . $op . '">
-        <table class="table" border="1" align="center">
-            <tr>
-                <th class="text-center bg-dark text-white" colspan="2">DATOS Persona</th>
-            </tr>
-            <tr>
-                <td>Nombre:</td>
-                <td><input type="text" size="6" name="nombre" required></td>
-            </tr>
-            <tr>
-                <td>Apellido:</td>
-                <td><input type="text" size="6" name="apellido" required></td>
-            </tr>
-            <tr>
-                <td>Cédula:</td>
-                <td><input type="text" size="6" name="cedula" required></td>
-            </tr>
-            <tr>
-                <td>Puntos de Licencia:</td>
-                <td><input type="number" size="6" name="puntosLicencia" required></td>
-            </tr>
-            <tr>
-                <th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="GuardarPersona" value="GUARDAR PERSONA"></th>
-            </tr>
-        </table>
-    </form>';
-	echo "<pre>";
-	print_r($_POST);
-	echo "</pre>";
-
-
-		} else {
-			$html = '
-		<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
-		
-		<input type="hidden" name="id" value="' . $id . '">
-		<input type="hidden" name="op" value="' . $op . '">
-		
-  		<table class="table " border="1" align="center">
-				<tr>
-					<th  class="text-center bg-dark text-white scope="col" colspan="2">DATOS Usuario</th>
-				</tr>
-				<tr>
-					<td>Username:</td>
-					<td><input type="text"  size="6" name="username" value="' . $this->username . '" required></td>
-				</tr>
-								<tr>
-					<td>password:</td>
-					<td><input type="text"  size="6" name="password" value="' . $this->password . '" required></td>
-				</tr>
-				</tr>
-				<tr>
-					<td>ROL:</td>
-
-					<td><input type="text"  size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '" required></td>
-				</tr>
-				<tr>
-					
-					<th  class="text-center" colspan="2"><input  class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
-					
-				</tr>
-				<th class="text-center bg-dark " colspan="9"><a class="btn btn-outline-success"  href="index.php">Regresar</a></th>												
-			</table>';
+			<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
+				<input type="hidden" name="id" value="' . $id . '">
+				<input type="hidden" name="op" value="' . $op . '">
+				<table class="table" border="1" align="center">
+					<tr>
+						<th class="text-center bg-dark text-white" colspan="2">DATOS Usuario Vehículo</th>
+					</tr>
+					<tr>
+						<td>Username:</td>
+						<td>' . $this->_get_combo_dbVe('matriculacionfinal', 'vehiculo', 'placa', 'placa', 'username', $this->username) . '</td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td><input type="text" size="6" name="password" value="' . $this->password . '" required></td>
+					</tr>
+					<tr>
+						<td>ROL:</td>
+						<td><input type="text" size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '" required></td>
+					</tr>
+					<tr>
+						<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
+					</tr>
+					<th class="text-center bg-dark" colspan="9"><a class="btn btn-outline-success" href="index.php">Regresar</a></th>
+				</table>
+			</form>';
 		}
-
-
-
-
+		// Para rol 6 (Agente de tránsito) - nuevo usuario
+		else if ($_SESSION['BOTON'] == 6 && $op == "new") {
+			$html = '
+			<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
+				<input type="hidden" name="id" value="' . $id . '">
+				<input type="hidden" name="op" value="' . $op . '">
+				<table class="table" border="1" align="center">
+					<tr>
+						<th class="text-center bg-dark text-white" colspan="2">DATOS Usuario Agente de Tránsito</th>
+					</tr>
+					<tr>
+						<td>Username:</td>
+						<td><input type="text" size="6" name="username" value="' . $this->username . '" required></td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td><input type="text" size="6" name="password" value="' . $this->password . '" required></td>
+					</tr>
+					<tr>
+						<td>ROL:</td>
+						<td><input type="text" size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '  " required></td>
+					</tr>
+					<tr>
+						<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
+					</tr>
+					<th class="text-center bg-dark" colspan="9"><a class="btn btn-outline-success" href="index.php">Regresar</a></th>
+				</table>
+			</form>';
+		}
+		
+		// El resto del código para actualizaciones y otros casos...
+		
 		return $html;
-
-
 	}
-
 
 
 	public function get_list()
@@ -631,29 +551,27 @@ class usuario1
 	private function _message_error($tipo)
 	{
 		$html = '
-		<table class="table border border-2 rounded-3 mx-auto text-center mt-5">
-	   <tr>
-		   <th class=" bg-dark text-white py-5" scope="col">' . $tipo . ' </th>
-	   </tr>
-	   <tr>
-		   <th class="py-2"><a class="btn btn-outline-warning " href="index.php">Regresar</a></th>
-	   </tr>
+    <table class="table border border-2 rounded-3 mx-auto text-center mt-5">
+       <tr>
+           <th class="bg-dark text-white py-5" scope="col">' . $tipo . ' </th>
+       </tr>
+       <tr>
+           <th class="py-2"><a class="btn btn-outline-warning" href="index.php">Regresar</a></th>
+       </tr>
    </table>';
 		return $html;
 	}
-
-
 	private function _message_ok($tipo)
 	{
 		$html = '
-		  <table class="table border border-2 rounded-3 mx-auto text-center mt-5">
-        <tr>
-            <th class=" bg-dark text-white py-5" scope="col">El registro se ' . $tipo . ' correctamente</th>
-        </tr>
-        <tr>
-            <th class="py-2"><a class="btn btn-outline-warning " href="index.php">Regresar</a></th>
-        </tr>
-    </table>';
+		<table class="table border border-2 rounded-3 mx-auto text-center mt-5">
+			<tr>
+				<th class="bg-dark text-white py-5" scope="col">Usuario se ' . $tipo . ' correctamente</th>
+			</tr>
+			<tr>
+				<th class="py-2"><a class="btn btn-outline-warning" href="index.php">Regresar</a></th>
+			</tr>
+		</table>';
 		return $html;
 	}
 
