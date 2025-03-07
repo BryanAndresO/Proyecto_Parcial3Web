@@ -85,7 +85,7 @@
 		include_once("class/class.agencia.php");
 		
 		$cn = conectar();
-		$v = new vehiculo($cn);
+		$v = new agencia($cn);
 		
 		if(isset($_GET['d'])){
 			$dato = base64_decode($_GET['d']);
@@ -95,9 +95,9 @@
 			$id = $tmp[1];
 			
 			if($op == "del"){
-				echo $v->delete_vehiculo($id);
+				echo $v->delete_agencia($id);
 			}elseif($op == "det"){
-				echo $v->get_detail_vehiculo($id);
+				echo $v->get_detail_agencia($id);
 			}elseif($op == "new"){
 				echo '<div class="col-lg-3 col-ms-3"></div>';
 				echo $v->get_form();
@@ -115,9 +115,9 @@
 				echo "</pre>";*/
 		      
 			if(isset($_POST['Guardar']) && $_POST['op']=="new"){
-				$v->save_vehiculo();
+				$v->save_agencia();
 			}elseif(isset($_POST['Guardar']) && $_POST['op']=="update"){
-				$v->update_vehiculo();
+				$v->update_agencia();
 			}else{
 				echo $v->get_list();
 			}	

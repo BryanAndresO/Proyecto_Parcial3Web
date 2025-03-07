@@ -1,8 +1,5 @@
-
-
-
 <?php
-class vehiculo{
+class agencia{
 	private $id;
 	private $descripcion;
 
@@ -19,8 +16,8 @@ class vehiculo{
 	}
 		
 		
-//*********************** 3.1 METODO update_vehiculo() **************************************************	
-public function update_vehiculo(){
+//*********************** 3.1 METODO update_agencia() **************************************************	
+public function update_agencia(){
  
     $this->id = $_POST['id'];
     $this->descripcion = $_POST['descripcion'];
@@ -55,9 +52,9 @@ public function update_vehiculo(){
 }
 	
 
-//*********************** 3.2 METODO save_vehiculo() **************************************************	
+//*********************** 3.2 METODO save_agencia() **************************************************	
 
-	public function save_vehiculo(){
+	public function save_agencia(){
 		
 	
 	
@@ -168,11 +165,11 @@ public function update_vehiculo(){
 				<td>';
 				
 				if($defecto == NULL){
-					// OPCION PARA GRABAR UN NUEVO VEHICULO (id=0)
+					// OPCION PARA GRABAR UNA NUEVA AGENCIA (id=0)
 					$html .= '<input type="radio" value="' . $etiqueta . '" name="' . $nombre . '" checked/></td>';
 				
 				}else{
-					// OPCION PARA MODIFICAR UN VEHICULO EXISTENTE
+					// OPCION PARA MODIFICAR UNA AGENCIA EXISTENTE
 					$html .= ($defecto == $etiqueta)? '<input type="radio" value="' . $etiqueta . '" name="' . $nombre . '" checked/></td>' : '<input type="radio" value="' . $etiqueta . '" name="' . $nombre . '"/></td>';
 				}
 			
@@ -389,7 +386,7 @@ public function update_vehiculo(){
 	}
 	
 	
-	public function get_detail_vehiculo($id){
+	public function get_detail_agencia($id){
 		$sql = "SELECT * FROM matriculacionfinal.agencia where id=$id;";
 		$res = $this->con->query($sql);
 		$row = $res->fetch_assoc();
@@ -408,7 +405,14 @@ public function update_vehiculo(){
 				$html = '
 				<table class="table col-lg-2" border="1" align="center">
 						<tr>
-							<th class="text-center bg-dark text-white"  colspan="2">DATOS DEL AGENCIA</th>
+							<th class="text-center bg-dark text-white" colspan="2">
+								<div class="d-flex justify-content-between align-items-center">
+									<a class="btn btn-outline-warning" href="index.php">
+										<i class="fas fa-arrow-left"></i> 
+									</a>
+									<span class="mx-auto">DATOS DEL AGENCIA</span>
+								</div>
+							</th>
 						</tr>
 
 						
@@ -469,7 +473,7 @@ public function update_vehiculo(){
 	}
 	
 	
-	public function delete_vehiculo($id){
+	public function delete_agencia($id){
 		$sql = "DELETE FROM agencia WHERE id=$id;";
 		if($this->con->query($sql)){	
 			echo $this->_message_ok("ELIMINÓ");

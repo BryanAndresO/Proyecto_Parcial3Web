@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-	<title>Matriculas Vehículos</title>
+	<title>Matriculas Marcas</title>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	
@@ -83,7 +83,7 @@
 		include_once("class/class.marca.php");
 		
 		$cn = conectar();
-		$v = new vehiculo($cn);
+		$v = new marca($cn);
 		
 		if(isset($_GET['d'])){
 			$dato = base64_decode($_GET['d']);
@@ -93,9 +93,9 @@
 			$id = $tmp[1];
 			
 			if($op == "del"){
-				echo $v->delete_vehiculo($id);
+				echo $v->delete_marca($id);
 			}elseif($op == "det"){
-				echo $v->get_detail_vehiculo($id);
+				echo $v->get_detail_marca($id);
 			}elseif($op == "new"){
 				echo '<div class="col-lg-3 col-ms-3"></div>';
 				echo $v->get_form();
@@ -113,9 +113,9 @@
 				echo "</pre>";*/
 		      
 			if(isset($_POST['Guardar']) && $_POST['op']=="new"){
-				$v->save_vehiculo();
+				$v->save_marca();
 			}elseif(isset($_POST['Guardar']) && $_POST['op']=="update"){
-				$v->update_vehiculo();
+				$v->update_marca();
 			}else{
 				echo $v->get_list();
 			}	
@@ -145,3 +145,4 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
