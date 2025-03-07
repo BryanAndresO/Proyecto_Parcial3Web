@@ -53,6 +53,9 @@ class usuario1
 			$this->password = $this->con->real_escape_string($_POST['password']);
 			$this->roles_id = intval($_POST['marcaCMB']);
 	
+			// Usar el ID del vehículo específico para agentes de tránsito
+			$idVehiculo = 1; // ID del vehículo específico para agentes
+	
 			if ($this->username != null) {
 				// Verificar si el username ya existe en la tabla `usuarios`
 				$sql_check_user = "SELECT id FROM usuarios WHERE username = '$this->username'";
@@ -81,8 +84,7 @@ class usuario1
 					echo $this->_message_ok("guardó");
 	
 					// Mostrar el formulario de persona para Agente de Tránsito
-					// No necesitamos validar vehículo para agentes
-					$this->show_persona_form($idUsuario);
+					$this->show_persona_form($idUsuario, $idVehiculo); // Pasamos $idVehiculo como 1
 				} else {
 					echo $this->_message_error("guardar");
 				}
