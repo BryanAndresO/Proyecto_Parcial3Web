@@ -1131,13 +1131,16 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				if($Propietario_puntosLicencia >= 15){
 					$colorPuntos = "table-success";
 				}
-				if($Propietario_puntosLicencia <= 15 && $Propietario_puntosLicencia >= 10){
+				if($Propietario_puntosLicencia <= 14 && $Propietario_puntosLicencia >= 10){
 					$colorPuntos = "table-warning";
 				}
-				if($Propietario_puntosLicencia <= 10){
+				if($Propietario_puntosLicencia <= 9 && $Propietario_puntosLicencia >= 5){
 					$colorPuntos = "table-danger";
 				}
-
+				if($Propietario_puntosLicencia <= 5){
+					$colorPuntos = "table-danger";
+				}
+				
 				$html.='
 				<table class="table col-lg-2" border="1" align="center">
 					<tr>
