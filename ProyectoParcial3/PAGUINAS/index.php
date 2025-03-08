@@ -125,9 +125,9 @@ $html .= '
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 color5">
       <h2 style="color: white;">Aplicacion de tecnologias WEB</h2>
-      <p style="color: black;">Estudiantes: Carrillo Luis </p>
+      <p style="color: black;">Estudiantes: Carrillo Luis - Ortiz Brayan - Gualotuña Paul </p>
       <p style="color: black;">NRC:  </p>
-      <p style="color: black;">Fecha: 13/02/2025</p>
+      <p style="color: black;">Fecha: 11/03/2025</p>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 color4 responsive" style="width: 360px; background-color: white;">
       <video width="100%" controls autoplay muted>
