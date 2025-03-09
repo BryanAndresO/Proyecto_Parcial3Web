@@ -29,6 +29,7 @@ class Persona {
             if ($rol == 6) { // Agente de tránsito
                 $this->idVehiculo = 1; // Usar el ID del vehículo específico para agentes
                 $this->puntosLicencia = 0; // No tiene puntos de licencia
+                //
             } else { // Rol 9 (usuario vehículo)
                 $this->idVehiculo = isset($_POST['idVehiculo']) ? intval($_POST['idVehiculo']) : 0;
                 $this->puntosLicencia = isset($_POST['puntosLicencia']) ? intval($_POST['puntosLicencia']) : 20;

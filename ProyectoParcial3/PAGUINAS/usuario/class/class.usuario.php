@@ -345,6 +345,9 @@ class usuario1
 
 	public function get_form($id = NULL)
 	{
+		// Initialize $html to ensure it always has a value
+		$html = '';
+		
 		if ($id == NULL) {
 			$this->username = NULL;
 			$this->password = NULL;
@@ -352,10 +355,19 @@ class usuario1
 			$flag = NULL;
 			$op = "new";
 		} else {
-			// Código existente para cargar datos...
+			// Load existing data for the user with the given ID
+			$sql = "SELECT * FROM usuarios WHERE id=$id;";
+			$res = $this->con->query($sql);
+			$row = $res->fetch_assoc();
+			
+			$this->username = $row['username'];
+			$this->password = $row['password'];
+			$this->roles_id = $row['roles_id'];
+			$flag = "enabled";
+			$op = "update"; // Set $op for update operations
 		}
 	
-		// Para rol 9 (Usuario vehículo) - nuevo usuario
+		// For rol 9 (Usuario vehículo) - new user
 		if ($_SESSION['BOTON'] == 9 && $op == "new") {
 			$html = '
 			<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
@@ -384,7 +396,7 @@ class usuario1
 				</table>
 			</form>';
 		}
-		// Para rol 6 (Agente de tránsito) - nuevo usuario
+		// For rol 6 (Agente de tránsito) - new user
 		else if ($_SESSION['BOTON'] == 6 && $op == "new") {
 			$html = '
 			<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
@@ -413,12 +425,38 @@ class usuario1
 				</table>
 			</form>';
 		}
-		
-		// El resto del código para actualizaciones y otros casos...
+		// Add this section for update operations
+		else if ($op == "update") {
+			$html = '
+			<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
+				<input type="hidden" name="id" value="' . $id . '">
+				<input type="hidden" name="op" value="' . $op . '">
+				<table class="table" border="1" align="center">
+					<tr>
+						<th class="text-center bg-dark text-white" colspan="2">ACTUALIZAR DATOS USUARIO</th>
+					</tr>
+					<tr>
+						<td>Username:</td>
+						<td><input type="text" size="6" name="username" value="' . $this->username . '" required readonly></td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td><input type="text" size="6" name="password" value="' . $this->password . '" required></td>
+					</tr>
+					<tr>
+						<td>ROL:</td>
+						<td><input type="text" size="6" name="marcaCMB" value="' . $this->roles_id . '" required readonly></td>
+					</tr>
+					<tr>
+						<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="Guardar" value="ACTUALIZAR"></th>
+					</tr>
+					<th class="text-center bg-dark" colspan="9"><a class="btn btn-outline-success" href="index.php">Regresar</a></th>
+				</table>
+			</form>';
+		}
 		
 		return $html;
 	}
-
 
 	public function get_list()
 	{
