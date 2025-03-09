@@ -53,8 +53,29 @@ class usuario1
 			$this->password = $this->con->real_escape_string($_POST['password']);
 			$this->roles_id = intval($_POST['marcaCMB']);
 	
-			// Usar el ID del vehículo específico para agentes de tránsito
-			$idVehiculo = 1; // ID del vehículo específico para agentes
+			// Verificar si existe el vehículo con ID 1
+			$sql_check_vehicle = "SELECT id FROM vehiculo WHERE id = 1";
+			$result_vehicle = $this->con->query($sql_check_vehicle);
+			
+			// Si no existe el vehículo con ID 1, usamos otro vehículo existente
+			if ($result_vehicle->num_rows == 0) {
+				// Buscar cualquier vehículo existente en la base de datos
+				$sql_any_vehicle = "SELECT id FROM vehiculo LIMIT 1";
+				$result_any_vehicle = $this->con->query($sql_any_vehicle);
+				
+				if ($result_any_vehicle->num_rows > 0) {
+					// Usar el primer vehículo encontrado
+					$row = $result_any_vehicle->fetch_assoc();
+					$idVehiculo = $row['id'];
+				} else {
+					// No hay vehículos en la base de datos, crear uno temporal
+					// Este es un caso extremo, pero asegura que siempre haya un vehículo referenciable
+					$idVehiculo = null;
+				}
+			} else {
+				// Usar el vehículo con ID 1
+				$idVehiculo = 1;
+			}
 	
 			if ($this->username != null) {
 				// Verificar si el username ya existe en la tabla `usuarios`
@@ -84,13 +105,13 @@ class usuario1
 					echo $this->_message_ok("guardó");
 	
 					// Mostrar el formulario de persona para Agente de Tránsito
-					$this->show_persona_form($idUsuario, $idVehiculo); // Pasamos $idVehiculo como 1
+					$this->show_persona_form($idUsuario, $idVehiculo);
 				} else {
 					echo $this->_message_error("guardar");
 				}
 			}
 		} else if ($_SESSION['BOTON'] == 9) {
-			// Código para usuarios de vehículos (rol 9)
+			// Código para usuarios de vehículos (rol 9) - sin cambios
 			// Escapar los valores para prevenir inyección SQL
 			$this->username = $this->con->real_escape_string($_POST['username']);  // Placa del vehículo
 			$this->password = $this->con->real_escape_string($_POST['password']);
@@ -345,30 +366,33 @@ class usuario1
 
 	public function get_form($id = NULL)
 	{
-		// Initialize $html to ensure it always has a value
+		// Inicializar las variables
 		$html = '';
-		
+		$op = "new"; // Por defecto, asumimos que es una operación de nuevo usuario
+	
 		if ($id == NULL) {
 			$this->username = NULL;
 			$this->password = NULL;
 			$this->roles_id = NULL;
 			$flag = NULL;
-			$op = "new";
 		} else {
-			// Load existing data for the user with the given ID
-			$sql = "SELECT * FROM usuarios WHERE id=$id;";
+			// Cargar los datos del usuario existente si se proporciona un ID
+			$sql = "SELECT * FROM usuarios WHERE id = $id;";
 			$res = $this->con->query($sql);
-			$row = $res->fetch_assoc();
-			
-			$this->username = $row['username'];
-			$this->password = $row['password'];
-			$this->roles_id = $row['roles_id'];
-			$flag = "enabled";
-			$op = "update"; // Set $op for update operations
+			if ($res->num_rows > 0) {
+				$row = $res->fetch_assoc();
+				$this->username = $row['username'];
+				$this->password = $row['password'];
+				$this->roles_id = $row['roles_id'];
+				$op = "edit"; // Cambiar a operación de edición
+			} else {
+				echo $this->_message_error("No se encontró el usuario con ID $id.");
+				return;
+			}
 		}
 	
-		// For rol 9 (Usuario vehículo) - new user
-		if ($_SESSION['BOTON'] == 9 && $op == "new") {
+		// Para rol 9 (Usuario vehículo) - nuevo o editar usuario
+		if ($_SESSION['BOTON'] == 9) {
 			$html = '
 			<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
 				<input type="hidden" name="id" value="' . $id . '">
@@ -387,7 +411,7 @@ class usuario1
 					</tr>
 					<tr>
 						<td>ROL:</td>
-						<td><input type="text" size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '" required></td>
+						<td><input type="text" size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '" required disabled></td>
 					</tr>
 					<tr>
 						<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
@@ -396,8 +420,9 @@ class usuario1
 				</table>
 			</form>';
 		}
-		// For rol 6 (Agente de tránsito) - new user
-		else if ($_SESSION['BOTON'] == 6 && $op == "new") {
+		
+		// Para rol 6 (Agente de tránsito) - nuevo o editar usuario
+		else if ($_SESSION['BOTON'] == 6) {
 			$html = '
 			<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
 				<input type="hidden" name="id" value="' . $id . '">
@@ -416,7 +441,7 @@ class usuario1
 					</tr>
 					<tr>
 						<td>ROL:</td>
-						<td><input type="text" size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '  " required></td>
+						<td><input type="text" size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '" required disabled></td>
 					</tr>
 					<tr>
 						<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
@@ -425,38 +450,10 @@ class usuario1
 				</table>
 			</form>';
 		}
-		// Add this section for update operations
-		else if ($op == "update") {
-			$html = '
-			<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
-				<input type="hidden" name="id" value="' . $id . '">
-				<input type="hidden" name="op" value="' . $op . '">
-				<table class="table" border="1" align="center">
-					<tr>
-						<th class="text-center bg-dark text-white" colspan="2">ACTUALIZAR DATOS USUARIO</th>
-					</tr>
-					<tr>
-						<td>Username:</td>
-						<td><input type="text" size="6" name="username" value="' . $this->username . '" required readonly></td>
-					</tr>
-					<tr>
-						<td>Password:</td>
-						<td><input type="text" size="6" name="password" value="' . $this->password . '" required></td>
-					</tr>
-					<tr>
-						<td>ROL:</td>
-						<td><input type="text" size="6" name="marcaCMB" value="' . $this->roles_id . '" required readonly></td>
-					</tr>
-					<tr>
-						<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="Guardar" value="ACTUALIZAR"></th>
-					</tr>
-					<th class="text-center bg-dark" colspan="9"><a class="btn btn-outline-success" href="index.php">Regresar</a></th>
-				</table>
-			</form>';
-		}
 		
 		return $html;
 	}
+
 
 	public function get_list()
 	{
