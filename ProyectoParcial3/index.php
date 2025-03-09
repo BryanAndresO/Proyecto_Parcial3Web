@@ -91,7 +91,7 @@ $_SESSION['listaNote'] = $usuarios;
                         <div class="d-flex align-items-center justify-content-center">
                             <img src="PAGUINAS/imagenes/img/log-ant.jpg" alt="Logo" class="ms-2 " style="height: 60px; margin-left: 2.5%;">
                             <h2 class="modal-title text-center mb-0">AMT</h2>
-                            <h3 class="modal-title text-center mb-0">AGENTE(Rol=1)/ADM(Rol=2)/SUPERADM(Rol=3)</h3>
+                            <h3 class="modal-title text-center mb-0" style="font-size: 17px;">AGENTE(Rol=6)/ADM(Rol=7)/SUPERADM(Rol=8)/VEHICULO(Rol=9)</h3>
                         </div>
 
                         <div class="modal-body">

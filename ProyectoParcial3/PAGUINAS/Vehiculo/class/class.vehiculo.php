@@ -1131,13 +1131,16 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				if($Propietario_puntosLicencia >= 15){
 					$colorPuntos = "table-success";
 				}
-				if($Propietario_puntosLicencia <= 15 && $Propietario_puntosLicencia >= 10){
+				if($Propietario_puntosLicencia <= 14 && $Propietario_puntosLicencia >= 10){
 					$colorPuntos = "table-warning";
 				}
-				if($Propietario_puntosLicencia <= 10){
+				if($Propietario_puntosLicencia <= 9 && $Propietario_puntosLicencia >= 5){
 					$colorPuntos = "table-danger";
 				}
-
+				if($Propietario_puntosLicencia <= 5){
+					$colorPuntos = "table-danger";
+				}
+				
 				$html.='
 				<table class="table col-lg-2" border="1" align="center">
 					<tr>
@@ -1789,6 +1792,69 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 	  
 			  return $html;
 		}
+	}
+
+//************************************* GET_MULTAR2 ****************************************************
+
+	public function get_multar2($id) {
+		$conexion = new mysqli("localhost", "root", "", "matriculacionfinal");
+		if ($conexion->connect_errno) {
+			die("Error de conexión: " . $conexion->connect_error);
+		}
+	
+		$html = '';
+	
+		$sql = "SELECT 
+				v.id AS ID_VEHICULO,
+				v.placa,
+				p.ID_CHOFER,
+				p.APELLIDO,
+				p.NOMBRE,
+				p.CEDULA,
+				p.PUNTOS_LICENCIA
+				FROM 
+					matriculacionfinal.vehiculo v
+				JOIN 
+					matriculacionfinal.persona p on p.ID_CHOFER=v.id_persona
+				WHERE v.placa='$id';";
+	
+		if ($stmt1 = $conexion->prepare($sql)) {
+			$stmt1->execute();
+			$result = $stmt1->get_result();
+			$row = $result->fetch_assoc();
+	
+			if ($result->num_rows != 0) {
+				$Propietario_puntosLicencia = $row['PUNTOS_LICENCIA'];
+	
+				if ($Propietario_puntosLicencia <= 5) {
+					$html .= '
+					<!-- Modal de Advertencia -->
+					<div class="modal fade" id="modalAdvertencia" tabindex="-1" aria-labelledby="modalAdvertenciaLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header bg-danger text-white">
+									<h5 class="modal-title" id="modalAdvertenciaLabel">¡Advertencia!</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+								</div>
+								<div class="modal-body">
+									El propietario de este vehículo tiene 5 puntos o menos en su licencia. ¡Tome precauciones!
+									<br>
+									Para más información en nuestro sitio web en: Matricula - Consultar Multa.
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Entendido</button>
+								</div>
+							</div>
+						</div>
+					</div>';
+					// Código JavaScript para abrir el modal automáticamente
+					$html .= "<script>$(document).ready(function() { $('#modalAdvertencia').modal('show'); });</script>";
+				}
+			}
+			$stmt1->close();
+		}
+	
+		return $html;
 	}
 	
 } // FIN SCRPIT
