@@ -411,7 +411,7 @@ class usuario1
 					</tr>
 					<tr>
 						<td>ROL:</td>
-						<td><input type="text" size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '" required disabled></td>
+						<td><input type="text" size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '" required readonly></td>
 					</tr>
 					<tr>
 						<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
@@ -441,7 +441,7 @@ class usuario1
 					</tr>
 					<tr>
 						<td>ROL:</td>
-						<td><input type="text" size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '" required disabled></td>
+						<td><input type="text" size="6" name="marcaCMB" value="' . $_SESSION['BOTON'] . '" required readonly></td>
 					</tr>
 					<tr>
 						<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="Guardar" value="GUARDAR"></th>
@@ -453,7 +453,6 @@ class usuario1
 		
 		return $html;
 	}
-
 
 	public function get_list()
 	{
