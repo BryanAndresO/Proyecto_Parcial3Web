@@ -39,31 +39,43 @@ $modalHtml = ''; // Variable para almacenar el HTML del modal
 
 if ($_SESSION['listaNote']->roles_id == 6) { 
   $menuOpciones .= '<li><a href="Vehiculo/index.php">CRUD_Vehiculo</a></li>';
-  $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton btn-info"><i class="fas fa-car"></i>Matricular-Multar</button></a></p>';
+  $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton btn-info"><i class="fas fa-car fa-2x"></i><h4> Matricular-Multar</h4></button></a></p>';
   $Rol = 'AGENTE';
 } 
 if ($_SESSION['listaNote']->roles_id == 7) { 
-    $menuOpciones .= '<li><a href="Marca-Crud/index.php">CRUD_Marca</a></li>';
+    $menuOpciones .= '<li><a  href="Marca-Crud/index.php">CRUD_Marca</a></li>';
     $menuOpciones .= '<li><a href="Vehiculo/index.php">CRUD_Vehiculo</a></li>';
     $menuOpciones .= '<li><a href="agencia/index.php">CRUD_Agencia</a></li>';
     $Rol = 'ADM';
 } 
 if ($_SESSION['listaNote']->roles_id == 8) { 
-    $Botones .= '<p><a href="set_session.php?tipo=Vehiculo"><button class="butoon tn-block ">Agregar VEHICULO</button></a></p>';
-    $Botones .= '<p><a href="set_session.php?tipo=Agente"><button class="butoon tn-block ">Agregar AGENTE</button></a></p>';
+  
+  $Botones .= '<p><a href="set_session.php?tipo=Vehiculo">
+  <button class="boton btn-primary">
+      <i class="fas fa-car"></i> Agregar VEHÍCULO
+  </button>
+</a></p>';
+
+$Botones .= '<p><a href="set_session.php?tipo=Agente">
+  <button class="boton btn-secondary btn-block">
+      <i class="fas fa-user-tie"></i> Agregar AGENTE
+  </button>
+</a></p>';
+
     $Rol = 'SUPERADM';
 }
 
 if ($_SESSION['listaNote']->roles_id == 9 ) { 
-  $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton">Matricula</button></a></p>';
+  $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton btn-light"><i class="fas fa-search custom-icon fa-2x"></i><h4> Consultar Matricula-Multa</h4></button></a></p>';
+
   $Rol = 'Vehiculo';
     // Llamar a la función get_multar2 para obtener el modal
     $vehiculo = new vehiculo($cn); // Asegúrate de pasar la conexión a la base de datos ($con)
     $modalHtml = $vehiculo->get_multar2($_SESSION['listaNote']->username); // Obtener el HTML del modal
   
 }
-
-$html = '
+$html='';
+$html .= '
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,17 +83,20 @@ $html = '
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/MisEstilos.css">
-<style>
-/* Estilos adicionales (si los hay) */
-</style>
+
 </head>
 <body>';
 
 // Agregar el modal al HTML solo si roles_id == 9
 $html .= $modalHtml;
+
+
+
+
 
 $html .= '
 <div class="container">
@@ -118,18 +133,20 @@ $html .= '
   </div>
 </div>
 
+
+
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 color1 pd-0 ">
-      ' . $Botones . '
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 color1">
+        ' . $Botones . '
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 color5">
+    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-5 color5">
       <h2 style="color: white;">Aplicacion de tecnologias WEB</h2>
       <p style="color: black;">Estudiantes: Carrillo Luis - Ortiz Brayan - Gualotuña Paul </p>
       <p style="color: black;">NRC:  </p>
       <p style="color: black;">Fecha: 11/03/2025</p>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 color4 responsive" style="width: 360px; background-color: white;">
+    <div class="col-xs-12 col-sm-12 col-md-12 color4" style="width: 350px; background-color: white;">
       <video width="100%" controls autoplay muted>
         <source src="../video/Video.mp4" type="video/mp4">
         Tu navegador no soporta el elemento de video.
@@ -137,6 +154,11 @@ $html .= '
     </div>
   </div>
 </div>
+
+
+
+
+
 
 <div class="container">
   <div class="row">
@@ -165,4 +187,3 @@ echo "<pre>";
 echo "</pre>";
 
 ?>
-

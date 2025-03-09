@@ -25,7 +25,6 @@ class MultasVehiculo{
         $this->puntosLicencia = $puntosLicencia;
     	$this->idusuario = $idusuario;
 
-
     }
 
     /* Métodos Getters */
