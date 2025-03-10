@@ -167,11 +167,12 @@ class usuario1
 	{
 		// Identificar el rol actual
 		$rol = $_SESSION['BOTON'];
-	
+
 		// Determinar si se debe mostrar el campo idVehiculo y puntosLicencia según el rol
 		$campoVehiculo = '';
 		$campoPuntos = '';
-	
+		$mensajeCedula = ''; // Variable para el mensaje de validación de cédula
+
 		if ($rol == 9) {
 			// Para usuarios de vehículos, mostrar el campo de vehículo
 			$campoVehiculo = '<input type="hidden" name="idVehiculo" value="' . $idVehiculo . '">';
@@ -185,7 +186,7 @@ class usuario1
 			$campoVehiculo = '<input type="hidden" name="idVehiculo" value="0">';
 			$campoPuntos = '<input type="hidden" name="puntosLicencia" value="0">';
 		}
-	
+
 		// Mostrar el formulario de persona con el título adecuado según el rol
 		$titulo = ($rol == 6) ? "DATOS Persona (Agente de Tránsito)" : "DATOS Persona (Usuario Vehículo)";
 		
@@ -207,14 +208,41 @@ class usuario1
 					</tr>
 					<tr>
 						<td>Cédula:</td>
-						<td><input type="text" size="6" name="cedula" required pattern="\d{10}" title="Debe ingresar exactamente 10 números."></td>
+						<td>
+							<input type="text" size="6" name="cedula" required pattern="\d{10}" title="Debe ingresar exactamente 10 números.">
+							<button type="button" onclick="validarCedula()">Validar</button>
+							<span id="mensajeCedula">' . $mensajeCedula . '</span>
+						</td>
 					</tr>
 					' . ($rol == 9 ? $campoPuntos : '') . '
 					<tr>
-						<th class="text-center" colspan="2"><input class="btn btn-outline-success" type="submit" name="GuardarPersona" value="GUARDAR PERSONA"></th>
+						<th class="text-center" colspan="2">
+							<input class="btn btn-outline-success" type="submit" name="GuardarPersona" value="GUARDAR PERSONA" id="guardarBtn" disabled>
+						</th>
 					</tr>
 				</table>
-			</form>';
+			</form>
+			<script>
+				function validarCedula() {
+					var cedula = document.querySelector(\'input[name="cedula"]\').value;
+					var xhr = new XMLHttpRequest();
+					xhr.open("POST", "validar_cedula.php", true);
+					xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+					xhr.onreadystatechange = function () {
+						if (xhr.readyState == 4 && xhr.status == 200) {
+							document.getElementById("mensajeCedula").innerHTML = xhr.responseText;
+							// Habilitar el botón si la cédula es correcta
+							if (xhr.responseText.includes("Cédula correcta")) {
+								document.getElementById("guardarBtn").disabled = false;
+							} else {
+								document.getElementById("guardarBtn").disabled = true;
+							}
+						}
+					};
+					xhr.send("cedula=" + cedula);
+				}
+			</script>
+		';
 		echo $html;
 	}
 
