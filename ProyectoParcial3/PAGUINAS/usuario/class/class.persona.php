@@ -17,7 +17,6 @@ class Persona
 
     public function save_persona()
     {
-        
         // Verificar si los campos del formulario de persona están presentes
         if (isset($_POST['nombre'], $_POST['apellido'], $_POST['cedula'], $_POST['idUsuario'])) {
             // Escapar los valores para prevenir inyección SQL
@@ -26,6 +25,15 @@ class Persona
             $this->cedula = $this->con->real_escape_string($_POST['cedula']);
             $this->idUsuario = intval($_POST['idUsuario']);
     
+            // Verificar si la cédula ya existe en la base de datos
+        $sql_check_cedula = "SELECT CEDULA FROM persona WHERE CEDULA = '$this->cedula'";
+        $result = $this->con->query($sql_check_cedula);
+
+        if ($result->num_rows > 0) {
+            echo $this->_message_error("La cédula ya está registrada.");
+            return; // Detener la ejecución si la cédula ya existe
+        }
+        
             // Obtener el rol del usuario desde la sesión
             $rol = isset($_SESSION['BOTON']) ? $_SESSION['BOTON'] : 0;
     
@@ -76,9 +84,6 @@ class Persona
         } else {
             echo $this->_message_error("faltan datos del formulario");
         }
-
-        
-        
     }
     
     
