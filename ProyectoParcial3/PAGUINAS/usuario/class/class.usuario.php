@@ -458,7 +458,7 @@ class usuario1
 		}
 		
 		// Para rol 6 (Agente de tránsito) - nuevo o editar usuario
-		else if ($_SESSION['BOTON'] == 6) {
+		else if ($_SESSION['BOTON'] == 6 ) {
 			$html = '
 			<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
 				<input type="hidden" name="id" value="' . $id . '">

@@ -43,9 +43,22 @@ if ($_SESSION['listaNote']->roles_id == 6) {
   $Rol = 'AGENTE';
 } 
 if ($_SESSION['listaNote']->roles_id == 7) { 
-    $menuOpciones .= '<li><a  href="Marca-Crud/index.php">CRUD_Marca</a></li>';
-    $menuOpciones .= '<li><a href="Vehiculo/index.php">CRUD_Vehiculo</a></li>';
-    $menuOpciones .= '<li><a href="agencia/index.php">CRUD_Agencia</a></li>';
+    $menuOpciones .= '
+    <li>
+        <a href="Marca-Crud/index.php" class="btn btn-primary">
+            <i class="fas fa-database"></i> CRUD Marca
+        </a>
+    </li>
+    ';
+    $menuOpciones .= '<li><a href="Vehiculo/index.php" class="btn btn-info"><i class="fas fa-car"></i> CRUD Vehículo</a></li>';
+    $menuOpciones .= '<li><a href="agencia/index.php" class="btn btn-warning"><i class="fas fa-building"></i> CRUD Agencia</a></li>';
+    $Botones .='
+      <div class="alert alert-danger text-center" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> No tienes acceso a esta sección.
+</div>
+
+    ';
+    
     $Rol = 'ADM';
 } 
 if ($_SESSION['listaNote']->roles_id == 8) { 
@@ -109,17 +122,20 @@ $html .= '
 </div>
 
 <div class="container">
-  <div class="col-lg-3 d-flex align-items-center ml-auto" style="margin-left: 1.5%;">
-    <i class="fas fa-user-circle fa-2x mr-3"></i>
-    <span class="font-weight-bold">User:'.$_SESSION['listaNote']->username.'</span> - 
-    <span class="text-muted">Rol: '.$Rol.'</span>
-  </div>
-  <div class="col-lg-7 d-flex align-items-center ml-auto" style="margin-left: 1.5%;"></div>
-  <div class="col-lg-12 d-flex justify-content-end" >
-    <a href="logout.php" class="btn btn-danger btn-sm" >
-      <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-    </a>
-  </div>
+  <div class="row">
+      <div class="col-lg-2 d-flex justify-content-end" >
+      <a href="logout.php" class="btn btn-danger btn-sm" >
+        <i class="fas fa-sign-out-alt" style="transform: scaleX(-1);"></i> Cerrar sesión
+      </a>
+    </div>
+    <div class="col-lg-6 d-flex align-items-center ml-auto"></div>
+
+    <div class="col-lg-3 d-flex align-items-center ml-auto" style="margin-left: 1.5%;">
+      <i class="fas fa-user-circle fa-2x mr-3" > </i>
+      <span class="font-weight-bold" style="margin-left: 0.5%;"> User: '.$_SESSION['listaNote']->username.'</span> - 
+      <span class="text-muted">Rol:  '.$Rol.'</span>
+    </div>
+    </div>
 </div>
 
 <div class="container">
@@ -136,8 +152,8 @@ $html .= '
 
 
 
-<div class="container">
-  <div class="row">
+<div class="container" >
+  <div class="row" style="margin-left: 0.05%;" >
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 color1">
         ' . $Botones . '
     </div>
@@ -167,7 +183,7 @@ $html .= '
       <div class="navegacion">
         <nav>
             <ul id="menu1">
-                <li><a href="#">Contacto</a></li>
+                <li><a href="#"></a></li>
             </ul>
         </nav>
       </div>

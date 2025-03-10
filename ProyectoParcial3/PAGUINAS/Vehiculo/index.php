@@ -212,7 +212,8 @@ $_SESSION["Multados"] =$vehiculosConMultas;
             <li class="nav-item">
                       <div class="col-lg-4 d-flex justify-content-end" >
                         <a href="../logout.php" class="btn btn-danger btn-sm" >
-                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                        <i class="fas fa-sign-out-alt" style="transform: scaleX(-1);"></i> Cerrar sesión
+
                         </a>
                         </div>
 
