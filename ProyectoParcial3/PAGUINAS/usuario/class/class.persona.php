@@ -17,6 +17,7 @@ class Persona
 
     public function save_persona()
     {
+        
         // Verificar si los campos del formulario de persona están presentes
         if (isset($_POST['nombre'], $_POST['apellido'], $_POST['cedula'], $_POST['idUsuario'])) {
             // Escapar los valores para prevenir inyección SQL
@@ -75,6 +76,9 @@ class Persona
         } else {
             echo $this->_message_error("faltan datos del formulario");
         }
+
+        
+        
     }
     
     

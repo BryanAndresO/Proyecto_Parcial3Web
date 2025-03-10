@@ -207,7 +207,7 @@ class usuario1
 					</tr>
 					<tr>
 						<td>Cédula:</td>
-						<td><input type="text" size="6" name="cedula" required></td>
+						<td><input type="text" size="6" name="cedula" required pattern="\d{10}" title="Debe ingresar exactamente 10 números."></td>
 					</tr>
 					' . ($rol == 9 ? $campoPuntos : '') . '
 					<tr>
