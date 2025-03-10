@@ -19,7 +19,8 @@ div[class^='col-']{
 	border-style:solid;
 	border-color:rgb(206, 206, 54);
 	border-radius:10px;
-	padding: 10px;
+	padding-top: 10px;
+	padding-left: 10px;
 	justify-content: center;
 }
 .color4{

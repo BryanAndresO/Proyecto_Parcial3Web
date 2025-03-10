@@ -616,9 +616,9 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 							<td>' . $row['anio'] . '</td>
 							<td>' . $row['avaluo'] . '</td>
 						
-							<td><a class="btn btn-outline-success btn-lg " href="index.php?d=' . $d_det_final1 . '">Consulta</a></td>
-							<td><a class="btn btn-outline-secondary btn-lg " href="index.php?d=' . $d_det_final . '">Detalle</a></td>
-       							<td><a class="btn btn-outline-secondary btn-lg" href="../Vehiculo/index.php?d=' . base64_encode('getmulta/' . $_SESSION['listaNote']->username) . '">Consultar Multa</a></td>
+							<td><a class="btn btn-outline-info btn-lg " href="index.php?d=' . $d_det_final1 . '">Consulta Matricula</a></td>
+							<td><a class="btn btn-outline-dark btn-lg " href="index.php?d=' . $d_det_final . '">Detalle Vehiculo</a></td>
+       							<td><a class="btn btn-outline-warning btn-lg" href="../Vehiculo/index.php?d=' . base64_encode('getmulta/' . $_SESSION['listaNote']->username) . '">Consultar Multas</a></td>
 							' . $Botones . '
 						</tr>';
 				}

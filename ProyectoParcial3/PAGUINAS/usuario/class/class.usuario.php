@@ -427,7 +427,15 @@ class usuario1
 				<input type="hidden" name="op" value="' . $op . '">
 				<table class="table" border="1" align="center">
 					<tr>
-						<th class="text-center bg-dark text-white" colspan="2">DATOS Usuario Vehículo</th>
+						<th class="text-center bg-dark text-white" scope="col" colspan="9">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto"><h4>DATOS Usuario Vehículo</h4></span>
+							</div>
+					</th>
+						
 					</tr>
 					<tr>
 						<td>Username:</td>
@@ -490,8 +498,17 @@ class usuario1
 		<table  class="table" border="1" align="center">
 		<thead>
 			<tr>
-				<th  class="text-center bg-dark text-white" colspan="8"><h3>Lista de Usuarios</h3></th>
+					<th class="text-center bg-dark text-white" scope="col" colspan="9">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="../index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto"><h2>Lista de Usuarios</h2></span>
+							</div>
+					</th>
+
 			</tr>
+
 			<tr>
 				<th class="text-center bg-dark " colspan="8"><a class="btn btn-outline-warning px-5 text-white" href="index.php?d=' . $d_new_final . '">Nuevo</a></th>
 			</tr>
@@ -556,8 +573,21 @@ class usuario1
 		} else {
 			$html = '
 				<table class="table col-lg-2" border="1" align="center">
+
+
+					
 					<tr>
-						<th class="text-center bg-dark text-white">DATOS DEL USUARIOS</th>
+						<th class="text-center bg-dark text-white" scope="col" colspan="9">
+							<div class="d-flex justify-content-between align-items-center">
+								<a class="btn btn-outline-warning" href="index.php">
+									<i class="fas fa-arrow-left"></i> 
+								</a>
+								<span class="mx-auto"><h4>DATOS DEL USUARIOS</h4></span>
+							</div>
+					</th>
+
+					
+					
 					</tr>
 					<tr>
 						

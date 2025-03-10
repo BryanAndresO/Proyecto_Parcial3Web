@@ -38,7 +38,7 @@ $Rol = '';
 $modalHtml = ''; // Variable para almacenar el HTML del modal
 
 if ($_SESSION['listaNote']->roles_id == 6) { 
-  $menuOpciones .= '<li><a href="Vehiculo/index.php">CRUD_Vehiculo</a></li>';
+  
   $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton btn-info"><i class="fas fa-car fa-2x"></i><h4> Matricular-Multar</h4></button></a></p>';
   $Rol = 'AGENTE';
 } 
@@ -51,13 +51,14 @@ if ($_SESSION['listaNote']->roles_id == 7) {
 if ($_SESSION['listaNote']->roles_id == 8) { 
   
   $Botones .= '<p><a href="set_session.php?tipo=Vehiculo">
-  <button class="boton btn-primary">
+  <button class="boton btn-primary btn-lg">
       <i class="fas fa-car"></i> Agregar VEHÍCULO
   </button>
 </a></p>';
 
-$Botones .= '<p><a href="set_session.php?tipo=Agente">
-  <button class="boton btn-secondary btn-block">
+
+  $Botones .= '<p><a href="set_session.php?tipo=Agente">
+  <button class="boton btn-secondary btn-lg">
       <i class="fas fa-user-tie"></i> Agregar AGENTE
   </button>
 </a></p>';
