@@ -4,11 +4,8 @@ include_once("class/class.usuario.php");
 require_once 'class/class.persona.php'; // Incluir la clase Persona
 require_once '../../Usuario.php';
 session_start();
+?>
 
-$cn = conectar();
-$v = new usuario1($cn);
-
-$html = '
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -49,7 +46,9 @@ $html = '
 
 <!-- Contenido principal -->
 <div class="container pt-2">
-';
+<?php
+$cn = conectar();
+$v = new usuario1($cn);
 
 // Verifica si se pasa el parámetro 'd' en la URL para manejar diferentes acciones
 if (isset($_GET['d'])) {
@@ -59,17 +58,17 @@ if (isset($_GET['d'])) {
     $id = $tmp[1];
 
     if ($op == "del") {
-        $html .= $v->delete_vehiculo($id);
+        echo $v->delete_vehiculo($id);
     } elseif ($op == "det") {
-        $html .= $v->get_detail_vehiculo($id);
+        echo $v->get_detail_vehiculo($id);
     } elseif ($op == "new") {
-        $html .= '<div class="container">';
-        $html .= $v->get_form();
-        $html .= '</div>';
+        echo '<div class="container">';
+        echo $v->get_form();
+        echo '</div>';
     } elseif ($op == "act") {
-        $html .= '<div class="container pt-2" style="margin-left: 25%;">';
-        $html .= $v->get_form($id);
-        $html .= '</div>';
+        echo '<div class="container pt-2" style="margin-left: 25%;">';
+        echo $v->get_form($id);
+        echo '</div>';
     }
 } else {
     if (isset($_POST['Guardar']) && $_POST['op'] == "new") {
@@ -81,24 +80,10 @@ if (isset($_GET['d'])) {
         $persona = new Persona($cn);
         $persona->save_persona();
     } else {
-        $html .= $v->get_list();
+        echo $v->get_list();
     }
 }
 
-$html .= '
-</div>
-
-<!-- Scripts de Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-';
-
-echo $html;
-echo "</form>";
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
 
 // Función para conectar a la base de datos
 function conectar() {
@@ -109,4 +94,17 @@ function conectar() {
     $c->set_charset("utf8");
     return $c;
 }
+
+
+echo "</form>";
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+
 ?>
+</div>
+
+<!-- Scripts de Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -412,7 +412,7 @@ class usuario1
 				$this->username = $row['username'];
 				$this->password = $row['password'];
 				$this->roles_id = $row['roles_id'];
-				$op = "edit"; // Cambiar a operación de edición
+				$op = "update"; // Cambiar a operación de edición
 			} else {
 				echo $this->_message_error("No se encontró el usuario con ID $id.");
 				return;
@@ -494,6 +494,7 @@ class usuario1
 				</table>
 			</form>';
 		}else{
+
 			$html = '
 			<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
 				<input type="hidden" name="id" value="' . $id . '">
