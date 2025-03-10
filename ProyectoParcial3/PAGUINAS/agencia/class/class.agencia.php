@@ -75,7 +75,7 @@ public function update_agencia(){
 		
 		$this->foto = $this->_get_name_file($_FILES['foto']['name'],12);
 		
-		$path = "../../../imagenes/agencias/" . $this->foto;
+		$path = "../../../img/agencias/" . $this->foto;
 		
 		//exit;
 		if(!move_uploaded_file($_FILES['foto']['tmp_name'],$path)){
@@ -371,7 +371,7 @@ public function update_agencia(){
 				<td>' . $row['telefono'] . '</td>
 				<td>' . $row['horainicio'] . '</td>
 				<td>' . $row['horafin'] . '</td>
-				<td style="text-align: center;"><img src=../../../imagenes/agencias/'.$row['foto'].' alt="" height="50" ></td>
+				<td style="text-align: center;"><img src=../../../img/agencias/'.$row['foto'].' alt="" height="50" ></td>
 				<td class="text-center " ><a class="btn btn-outline-danger custom-btn-1 btn-lg " href="index.php?d=' . $d_del_final . '">Borrar</a></td>
 				<td class="text-center "  ><a class="btn btn-outline-success btn-lg " href="index.php?d=' . $d_act_final . '">Actualizar</a></td>
 				<td class="text-center "  ><a class="btn btn-outline-secondary btn-lg " href="index.php?d=' . $d_det_final . '">Detalle</a></td>
@@ -460,7 +460,7 @@ public function update_agencia(){
 
 					
 						<tr >
-							<td  class="text-center" style="text-align: center;"><img src=../../../imagenes/agencias/'.$row['foto'].' alt=""  width="300px" ></td>
+							<td  class="text-center" style="text-align: center;"><img src=../../../img/agencias/'.$row['foto'].' alt=""  width="300px" ></td>
 						</tr>	
 						<tr>
 							<th class="text-center" colspan="2"><a class="btn btn-outline-success" href="index.php">Regresar</a></th>

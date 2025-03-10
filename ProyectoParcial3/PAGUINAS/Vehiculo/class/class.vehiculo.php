@@ -95,7 +95,7 @@ class vehiculo{
 		
 		$this->foto = $this->_get_name_file($_FILES['foto']['name'],12);
 		
-		$path = "../../../imagenes/autos/" . $this->foto;
+		$path = "../../../img/autos/" . $this->foto;
 		
 		//exit;
 		if(!move_uploaded_file($_FILES['foto']['tmp_name'],$path)){
@@ -789,7 +789,7 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 				
 					</tr>			
 					<tr >
-						<th class="text-center"><img src=../../../imagenes/autos/' . $row['foto'] . ' width="300px"/></th>
+						<th class="text-center"><img src=../../../img/autos/' . $row['foto'] . ' width="300px"/></th>
 					</tr>	
 					<tr>
 						<th class="text-center" ><a class="btn btn-outline-success"  href="index.php">Regresar</a></th>

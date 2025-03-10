@@ -61,7 +61,7 @@ class marca{
 		
 		$this->foto = $this->_get_name_file($_FILES['foto']['name'],12);
 		
-		$path = "../../../imagenes/Sellos/" . $this->foto;
+		$path = "../../../img/Sellos/" . $this->foto;
 		
 		//exit;
 		if(!move_uploaded_file($_FILES['foto']['tmp_name'],$path)){
@@ -330,7 +330,7 @@ class marca{
 				<td>' . $row['descripcion'] . '</td>
 				<td>' . $row['pais'] . '</td>
 				<td>' . $row['direccion'] . '</td>
-				<td style="text-align: center;"><img src=../../../imagenes/Sellos/'.$row['foto'].' alt="" height="50" ></td>
+				<td style="text-align: center;"><img src=../../../img/Sellos/'.$row['foto'].' alt="" height="50" ></td>
 				<td class="text-center " ><a class="btn btn-outline-danger custom-btn-1 btn-lg " href="index.php?d=' . $d_del_final . '">Borrar</a></td>
 				<td class="text-center "  ><a class="btn btn-outline-success btn-lg " href="index.php?d=' . $d_act_final . '">Actualizar</a></td>
 				<td class="text-center "  ><a class="btn btn-outline-secondary btn-lg " href="index.php?d=' . $d_det_final . '">Detalle</a></td>
@@ -400,7 +400,7 @@ class marca{
 
 					
 						<tr >
-							<td  class="text-center" style="text-align: center;"><img src=imagenes/Sellos/'.$row['foto'].' alt=""  width="300px" ></td>
+							<td  class="text-center" style="text-align: center;"><img src=../../../img/Sellos/'.$row['foto'].' alt=""  width="300px" ></td>
 						</tr>	
 						<tr>
 							<th class="text-center" colspan="2"><a class="btn btn-outline-success" href="index.php">Regresar</a></th>
