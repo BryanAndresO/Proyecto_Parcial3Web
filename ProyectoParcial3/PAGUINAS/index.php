@@ -84,28 +84,7 @@ if ($_SESSION['listaNote']->roles_id == 9 ) {
     $Rol = 'Vehiculo';
     // Llamar a la función get_multar2 para obtener el modal
     $vehiculo = new vehiculo($cn); // Asegúrate de pasar la conexión a la base de datos ($con)
-    
-      if ($puntos < 5) {
-        // Agregar modal de advertencia si puntos son menores que 5
-        $modalHtml = '
-        <div class="modal fade" id="modalAdvertencia" tabindex="-1" aria-labelledby="modalAdvertenciaLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="modalAdvertenciaLabel">¡Advertencia!</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body">
-                        El propietario de este vehículo tiene 5 puntos o menos en su licencia. ¡Tome precauciones!
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Entendido</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        ';
-      }
+    $modalHtml = $vehiculo->get_multar2($_SESSION['listaNote']->username); // Obtener el HTML del modal
 }
 
 $html = '';
