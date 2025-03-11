@@ -41,7 +41,7 @@ $modalHtml = ''; // Variable para almacenar el HTML del modal
 
 
 if ($_SESSION['listaNote']->roles_id == 6) { 
-    $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton btn-info"><i class="fas fa-car fa-2x"></i><h4> Matricular-Multar</h4></button></a></p>';
+    $Botones .= '<p><a href="Vehiculo/index.php"><button class="btn  btn-info"><i class="fas fa-car fa-2x"></i><h4> Matricular-Multar</h4></button></a></p>';
     $Rol = 'AGENTE';
 } 
 if ($_SESSION['listaNote']->roles_id == 7) { 
@@ -79,33 +79,33 @@ if ($_SESSION['listaNote']->roles_id == 8) {
 }
 
 if ($_SESSION['listaNote']->roles_id == 9 ) { 
-    $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton btn-light"><i class="fas fa-search custom-icon fa-2x"></i><h4> Consultar Matricula-Multa</h4></button></a></p>';
+    $Botones .= '<p><a href="Vehiculo/index.php"><button class="btn btn-light"><i class="fas fa-search custom-icon fa-2x"></i><h4> Consultar Matricula-Multa</h4></button></a></p>';
 
     $Rol = 'Vehiculo';
     // Llamar a la función get_multar2 para obtener el modal
     $vehiculo = new vehiculo($cn); // Asegúrate de pasar la conexión a la base de datos ($con)
     
-if ($puntos < 5) {
-  // Agregar modal de advertencia si puntos son menores que 5
-  $modalHtml = '
-  <div class="modal fade" id="modalAdvertencia" tabindex="-1" aria-labelledby="modalAdvertenciaLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header bg-danger text-white">
-                  <h5 class="modal-title" id="modalAdvertenciaLabel">¡Advertencia!</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-              </div>
-              <div class="modal-body">
-                  El propietario de este vehículo tiene 5 puntos o menos en su licencia. ¡Tome precauciones!
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Entendido</button>
-              </div>
-          </div>
-      </div>
-  </div>
-  ';
-}
+      if ($puntos < 5) {
+        // Agregar modal de advertencia si puntos son menores que 5
+        $modalHtml = '
+        <div class="modal fade" id="modalAdvertencia" tabindex="-1" aria-labelledby="modalAdvertenciaLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="modalAdvertenciaLabel">¡Advertencia!</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        El propietario de este vehículo tiene 5 puntos o menos en su licencia. ¡Tome precauciones!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Entendido</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        ';
+      }
 }
 
 $html = '';

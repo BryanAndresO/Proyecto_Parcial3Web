@@ -84,47 +84,45 @@ $_SESSION['listaNote'] = $usuarios;
 
     $hml='
     <div class="container">
-           
-            <div class="modal fade" id="miModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
+        
+        <!-- Botón para abrir el modal -->
 
-                        <div class="d-flex align-items-center justify-content-center">
-                            <img src="PAGUINAS/imagenes/img/log-ant.jpg" alt="Logo" class="ms-2 " style="height: 60px; margin-left: 2.5%;">
-                            <h2 class="modal-title text-center mb-0">AMT</h2>
-                            <h3 class="modal-title text-center mb-0" style="font-size: 17px;">AGENTE(Rol=6)/ADM(Rol=7)/SUPERADM(Rol=8)/VEHICULO(Rol=9)</h3>
-                        </div>
+        
+        <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-                        <div class="modal-body">
-                            <form action="validar.php" method="POST">
-                                <div class="form-group">
-                                    <label for="usuario">Usuario</label>
-                                    <input type="text" placeholder="usuario" class="form-control" name="usuario">
-                                </div>
-                                <div class="form-group">
-                                    <label for="contraseña">Contraseña</label>
-                                    <input type="password" placeholder="contraseña" class="form-control"  name="clave">
-                                </div>
-
-                                <div class="modal-footer">
-                                <button class="btn btn-primary" type="submit" value="LOGIN" >LOGIN</button> 
-                                        
-                                </div>
-                            </form>
-                        </div>
-
-          
-
+                    <div class="d-flex align-items-center justify-content-center">
+                        <img src="PAGUINAS/imagenes/img/log-ant.jpg" alt="Logo" class="ms-2 " style="height: 60px; margin-left: 2.5%;">
+                        <h2 class="modal-title text-center mb-0">AMT</h2>
+                        <h3 class="modal-title text-center mb-0" style="font-size: 17px;">AGENTE(Rol=6)/ADMINISTRADOR(Rol=7)</h3>
+                        <h3 class="modal-title text-center mb-0" style="font-size: 17px;">/ROOT(Rol=8)/VEHICULO(Rol=9)</h3>
                     </div>
+
+                    <div class="modal-body">
+                        <form action="validar.php" method="POST">
+                            <div class="form-group">
+                                <label for="usuario">Usuario</label>
+                                <input type="text" placeholder="usuario" class="form-control" name="usuario">
+                            </div>
+                            <div class="form-group">
+                                <label for="contraseña">Contraseña</label>
+                                <input type="password" placeholder="contraseña" class="form-control"  name="clave">
+                            </div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit" value="LOGIN" >LOGIN</button> 
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
             </div>
-
         </div>
-        
+    </div>
+';
 
-    ';
-
-    echo $hml;
+echo $hml;
 
     ;
    
