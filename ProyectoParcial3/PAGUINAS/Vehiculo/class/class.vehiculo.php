@@ -942,11 +942,6 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 	  
 			  $html .= '
 			  </table>';
-	  
-
-			  
-
-
 
 			  $agencia=null;
 		if($found){
@@ -1015,14 +1010,10 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 
 			
 			  // Obtener los años disponibles (suponiendo que los años van desde 2000 hasta el actual)
+			  $aniosMatriculados = [];
 			  $anioActual = date('Y');
-			  $aniosDisponibles = array_diff(range(1990, $anioActual));
-
-
+			  $aniosDisponibles = array_diff(range(1990, $anioActual),$aniosMatriculados);
 			  $op = "mat";
-
-		
-
 			$html .= '
 		<form class="col-lg-5 col-ms-5" name="vehiculo" method="POST" action="index.php" enctype="multipart/form-data">
 		
@@ -1534,7 +1525,8 @@ public function restar_puntos($idvehiculo,$cedulapersona,$idtipo){
 
 	
 	public function delete_vehiculo($id){
-		$sql = "DELETE FROM vehiculo WHERE id=$id;";
+		$sql = "DELETE FROM matriculacionfinal.vehiculo WHERE id=$id;";
+		echo $sql;
 			if($this->con->query($sql)){
 			echo $this->_message_ok("ELIMINÓ");
 		}else{
