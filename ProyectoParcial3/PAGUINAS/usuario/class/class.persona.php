@@ -78,7 +78,20 @@ class Persona
                 }, 2000);
                     </script>";
                     echo $rol;
-
+                    if( $rol==9){
+                        echo $this->idChofer;
+                        $sql = "UPDATE vehiculo SET 
+                        id_persona=$this->idChofer
+                            WHERE id=$this->idVehiculo;";
+                         echo $sql;
+                        if($this->con->query($sql) )
+                  
+                        //exit;
+                        echo "<div class='alert alert-success'>Se actulizo el id_persona en el vehiculo con éxito.</div>";
+                        
+                    }else{
+                        echo "<div class='alert alert-success'>No se actulizo el id_persona en el vehiculo</div>";
+                    }	
             } else {
                 echo $this->_message_error("al guardar");
                 echo "Error SQL: " . $this->con->error;

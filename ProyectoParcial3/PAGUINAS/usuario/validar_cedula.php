@@ -40,10 +40,10 @@ if (isset($_POST['cedula'])) {
     }
 
     // Validar la cédula ecuatoriana
-    if (!validarCedulaEcuatoriana($cedula)) {
+   /* if (!validarCedulaEcuatoriana($cedula)) {
         echo "<span style='color:red;'>Cédula no válida.</span>";
         exit; // Salir si la validación falla
-    }
+    }*/
 
     // Verificar si la cédula ya existe en la base de datos
     $sql = "SELECT * FROM persona WHERE cedula = '$cedula'";
