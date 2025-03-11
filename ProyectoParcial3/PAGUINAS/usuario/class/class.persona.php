@@ -69,18 +69,22 @@ class Persona
             // Construir la consulta SQL
             $sql = "INSERT INTO persona (ID_CHOFER, ID_VEHICULO, NOMBRE, APELLIDO, CEDULA, ID_USUARIO, PUNTOS_LICENCIA) 
                     VALUES ($this->idChofer, $this->idVehiculo, '$this->nombre', '$this->apellido', '$this->cedula', $this->idUsuario, $this->puntosLicencia)";
-    
+
             if ($this->con->query($sql)) {
                 echo $this->_message_ok("guardó persona");
                 echo "<script>
-                        setTimeout(function() {
-                            window.location.href = 'index.php';
-                        }, 2000);
-                      </script>";
+                setTimeout(function() {
+                    window.location.href = 'index.php';
+                }, 2000);
+                    </script>";
+                    echo $rol;
+
             } else {
                 echo $this->_message_error("al guardar");
                 echo "Error SQL: " . $this->con->error;
             }
+
+       		
         } else {
             echo $this->_message_error("faltan datos del formulario");
         }

@@ -2,7 +2,7 @@
 require_once 'Usuario.php';
 	session_start();
 	
-		/*	echo "<br>VARIABLE SESSION: <br>";
+		/*echo "<br>VARIABLE SESSION: <br>";
 			echo "<pre>";
 				print_r($_SESSION);
 			echo "</pre>";
@@ -25,6 +25,7 @@ require_once 'Usuario.php';
 
 	$filas = mysqli_num_rows($resultado); //0 si no coincide, 1 o + si concidio
 	
+
 	//echo $_SESSION['listaNote']->roles_id;
 	
 	if($filas>0){
@@ -67,7 +68,6 @@ require_once 'Usuario.php';
 	}
 
 				
-
 	mysqli_free_result($resultado);
 	mysqli_close($conexion);
 ?>

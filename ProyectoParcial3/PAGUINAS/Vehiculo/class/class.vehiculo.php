@@ -86,10 +86,10 @@ class vehiculo{
 		$this->combustible = $_POST['combustibleRBT'];
 		
 		 
-				echo "<br> FILES <br>";
+				/*echo "<br> FILES <br>";
 				echo "<pre>";
 					print_r($_FILES);
-				echo "</pre>";
+				echo "</pre>";*/
 		     
 		
 		
@@ -115,7 +115,7 @@ class vehiculo{
 											'$this->foto',
 											$this->avaluo,
 											null);";
-		echo $sql;
+		//echo $sql;
 		//exit;
 		if($this->con->query($sql)){
 			echo $this->_message_ok("guardó");

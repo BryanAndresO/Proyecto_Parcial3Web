@@ -14,7 +14,6 @@ if ($cn->connect_error) {
     die("Conexión fallida: " . $cn->connect_error);
 }
 
-
 require_once("Matricula/MatriculaVehiculo.php");
 require_once("Vehiculo/MultasVehiculo.php");
 require_once '../Usuario.php';
@@ -31,16 +30,19 @@ if (isset($_SESSION['listaNote'])) {
     echo "No hay usuario en la sesión.";
 }
 
+// Verificar los puntos de usuario
+$puntos = $_SESSION['listaNote']->puntos;
+
 // Definir etiquetas habilitadas por rol
 $menuOpciones = '';
 $Botones = '';
 $Rol = '';
 $modalHtml = ''; // Variable para almacenar el HTML del modal
 
+
 if ($_SESSION['listaNote']->roles_id == 6) { 
-  
-  $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton btn-info"><i class="fas fa-car fa-2x"></i><h4> Matricular-Multar</h4></button></a></p>';
-  $Rol = 'AGENTE';
+    $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton btn-info"><i class="fas fa-car fa-2x"></i><h4> Matricular-Multar</h4></button></a></p>';
+    $Rol = 'AGENTE';
 } 
 if ($_SESSION['listaNote']->roles_id == 7) { 
     $menuOpciones .= '
@@ -55,40 +57,58 @@ if ($_SESSION['listaNote']->roles_id == 7) {
     $Botones .='
       <div class="alert alert-danger text-center" role="alert">
     <i class="fas fa-exclamation-triangle"></i> No tienes acceso a esta sección.
-</div>
-
+    </div>
     ';
     
     $Rol = 'ADM';
 } 
 if ($_SESSION['listaNote']->roles_id == 8) { 
-  
-  $Botones .= '<p><a href="set_session.php?tipo=Vehiculo">
-  <button class="boton btn-primary btn-lg">
-      <i class="fas fa-car"></i> Agregar VEHÍCULO
-  </button>
-</a></p>';
+    $Botones .= '<p><a href="set_session.php?tipo=Vehiculo">
+    <button class="btn btn-primary btn-lg">
+        <i class="fas fa-car"></i> Agregar VEHÍCULO
+    </button>
+    </a></p>';
 
-
-  $Botones .= '<p><a href="set_session.php?tipo=Agente">
-  <button class="boton btn-secondary btn-lg">
-      <i class="fas fa-user-tie"></i> Agregar AGENTE
-  </button>
-</a></p>';
+    $Botones .= '<p><a href="set_session.php?tipo=Agente">
+    <button class="btn btn-secondary btn-lg">
+        <i class="fas fa-user-tie"></i> Agregar AGENTE
+    </button>
+    </a></p>';
 
     $Rol = 'SUPERADM';
 }
 
 if ($_SESSION['listaNote']->roles_id == 9 ) { 
-  $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton btn-light"><i class="fas fa-search custom-icon fa-2x"></i><h4> Consultar Matricula-Multa</h4></button></a></p>';
+    $Botones .= '<p><a href="Vehiculo/index.php"><button class="boton btn-light"><i class="fas fa-search custom-icon fa-2x"></i><h4> Consultar Matricula-Multa</h4></button></a></p>';
 
-  $Rol = 'Vehiculo';
+    $Rol = 'Vehiculo';
     // Llamar a la función get_multar2 para obtener el modal
     $vehiculo = new vehiculo($cn); // Asegúrate de pasar la conexión a la base de datos ($con)
-    $modalHtml = $vehiculo->get_multar2($_SESSION['listaNote']->username); // Obtener el HTML del modal
-  
+    
+if ($puntos < 5) {
+  // Agregar modal de advertencia si puntos son menores que 5
+  $modalHtml = '
+  <div class="modal fade" id="modalAdvertencia" tabindex="-1" aria-labelledby="modalAdvertenciaLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header bg-danger text-white">
+                  <h5 class="modal-title" id="modalAdvertenciaLabel">¡Advertencia!</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                  El propietario de este vehículo tiene 5 puntos o menos en su licencia. ¡Tome precauciones!
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Entendido</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  ';
 }
-$html='';
+}
+
+$html = '';
 $html .= '
 <!DOCTYPE html>
 <html lang="en">
@@ -96,27 +116,20 @@ $html .= '
 <title>Matricula</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-<link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/MisEstilos.css">
-
 </head>
 <body>';
-
-// Agregar el modal al HTML solo si roles_id == 9
-$html .= $modalHtml;
-
-
-
-
 
 $html .= '
 <div class="container">
   <div class="row">
     <header class="col-lg-12">
-      <center><img src="imagenes/img/logo_ESPE.png"height=”170” width=400”></center>
+      <center><img src="imagenes/img/logo_ESPE.png" width="400"></center>
    </header>
   </div>
 </div>
@@ -150,8 +163,6 @@ $html .= '
   </div>
 </div>
 
-
-
 <div class="container" >
   <div class="row" style="margin-left: 0.05%;" >
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 color1">
@@ -172,11 +183,6 @@ $html .= '
   </div>
 </div>
 
-
-
-
-
-
 <div class="container">
   <div class="row">
     <footer>
@@ -189,18 +195,27 @@ $html .= '
       </div>
     </footer>
   </div>
-</div>
+</div>';
 
+// Insertar modal
+$html .= $modalHtml;
 
+$html .= '
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    if (document.getElementById("modalAdvertencia")) {
+        var modal = new bootstrap.Modal(document.getElementById("modalAdvertencia"));
+        modal.show();
+    }
+});
+</script>
 
 </body>
 </html>';
 
 echo $html;
-
-echo "<br>VARIABLE SESSION: <br>";
-echo "<pre>";
-    print_r($_SESSION);
-echo "</pre>";
-
 ?>
+
