@@ -196,5 +196,10 @@ document.addEventListener("DOMContentLoaded", function() {
 </html>';
 
 echo $html;
+
+echo "</form>";
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";	
 ?>
 
