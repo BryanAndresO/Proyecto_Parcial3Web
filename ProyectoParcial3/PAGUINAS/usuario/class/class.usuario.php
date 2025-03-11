@@ -209,7 +209,7 @@ class usuario1
 					<tr>
 						<td>Cédula:</td>
 						<td>
-							<input type="text" size="6" name="cedula" required pattern="\d{10}" title="Debe ingresar exactamente 10 números.">
+							<input type="text" size="6" name="cedula" required>
 							<button type="button" onclick="validarCedula()">Validar</button>
 							<span id="mensajeCedula">' . $mensajeCedula . '</span>
 						</td>
